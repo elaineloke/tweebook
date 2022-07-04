@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const fs = require('fs');
 const twitter = require('./twitter');
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "static")));
 app.use(express.json());
@@ -39,12 +40,9 @@ app.get('/', function (req, res) {
       tweetbox: null,
       scheduledTweets: file
     });
-})
-
 
 //listen for get request on root url. eg. http://localhost:3000
 app.set('view engine', 'ejs')
-
 
 //connect to Twitter profile
 let Twitter = new twit({
@@ -68,7 +66,7 @@ app.post('/', function (req, res) {
  
   if (req.body.hashtag !== null) {
 
-  Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
+Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
   catch(function (err) {
     console.log('caught error', err.stack)
     res.render('index', {
@@ -181,4 +179,3 @@ app.post('/deleteScheduledTweet', function (req, res) {
   var content = JSON.stringify(updatedScheduledTweets);
   fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content);
 });
-

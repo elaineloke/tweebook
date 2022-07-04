@@ -41,6 +41,7 @@ const toastShow = document.getElementById('tweetFail')
     toast.show();           
 }
 
+
 function postTweet(event) {
     var tweet = textArea.value;
     var data = {text: tweet};
@@ -99,7 +100,6 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>' +
         '</div>';
-
     $("#tweet-area").val('');
     }
 }
@@ -130,3 +130,4 @@ function deleteScheduledTweet(btn) {
         then(text => console.log(text));
     cardBody.parentNode.parentNode.remove();
 }
+
