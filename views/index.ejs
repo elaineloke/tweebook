@@ -41,170 +41,207 @@
 </head>
 <body>
 
-    <h1 id="h1">TweeBook</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col" id="left">
-                <h2>New Tweet</h2>
+<h1 id="h1">TweeBook</h1>
+<div class="container">
+    <div class="row">
+        <div class="col" id="left">
+            <h2>New Tweet</h2>
 
-                <textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
-                <div id="remaining-chars">280 characters remaining</div>
-                <script>
-                                    
-                    var textArea = document.getElementById("tweet-area");
-                    var remainingChars = document.getElementById("remaining-chars");
-                    var maxChars = 280;
+            <textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
+            <div id="remaining-chars">280 characters remaining</div>
+            <script>
+                                
+                var textArea = document.getElementById("tweet-area");
+                var remainingChars = document.getElementById("remaining-chars");
+                var maxChars = 280;
 
-                    textArea.addEventListener("input", countChar);
-                    
-                    function countChar() {
-                        var remaining = maxChars - textArea.value.length;
-                        var remainingColour = remaining < 20 ? "red" : "black";
-                        remainingChars.textContent = `${remaining} characters remaining`;
-                        remainingChars.style.color = remainingColour;
-                    }
+                textArea.addEventListener("input", countChar);
                 
-                </script>
+                function countChar() {
+                    var remaining = maxChars - textArea.value.length;
+                    var remainingColour = remaining < 20 ? "red" : "black";
+                    remainingChars.textContent = `${remaining} characters remaining`;
+                    remainingChars.style.color = remainingColour;
+                }
+            
+            </script>
 
-                <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
-                <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
+            <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
+            <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
 
-                <div id="tweeted" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Tweeted!</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
+            <div id="tweeted" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Tweeted!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-
-                <div id="tweetFail" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Error tweeting! <br> Please try again.</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                </div>
-
-               <form class="flatpickr"> 
-                    <div class="col col-lg-5">
-                        <input type="text" id="calendar" placeholder="Schedule date/time" readonly="readonly">
-                    </div>
-                </form>
-
             </div>
 
-            <!-- Left column ends -->
+            <div id="tweetFail" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Error tweeting! <br> Please try again.</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
 
-           <div class="col" id="right">
-                <table class="responsive-table table">
-                <thead>
-                    <h2>Hashtag Search</h2>
-                    <div class="main-search-input-wrap">
-                        <div class="main-search-input fl-wrap">
-                            <form method="post">
-                            <div class="main-search-input-item"> 
-                            <fieldset>
-                                <div class="input-group">
-                                <input class="form-control" name="hashtag" placeholder="Search a popular term or #hashtag" required type="text">
-                                </div>
-                            </fieldset>
-                            </div> 
-                                <button class="main-search-button" input type="submit">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </thead>
+            <form class="flatpickr"> 
+                <div class="col col-lg-5">
+                    <input type="text" id="calendar" placeholder="Schedule date/time" readonly="readonly">
+                </div>
+            </form>
 
-                <tbody>
-                    <div class="col col-lg-12" id="right-content">
+            <tbody>
+            <div class="col col-lg-12" id="right-content">
+                <div id="scheduledTweets">
+                
+                    <h5>All scheduled tweets</h5>
+                    <script>
 
+                        let scheduledTweets = <%- JSON.stringify(scheduledTweets) %>;
 
-                        <div>
-                            <% if(hashtag !== null){ %>
-                                <h3>All popular tweets for: <%- hashtag %></h3>
-                                <% } %>
-                        </div>
-                    
-                    <div id="tweets">
-                    
-                        <% if(twitterData !== null){ %>
-                           
-                        <script>
+                        scheduledTweets.sort(function(scheduledTweets, nextScheduledTweet){
+                            return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
+                        })
 
-                            let twitterData = <%- JSON.stringify(twitterData) %>;
-                            console.log(twitterData);
-                            let tweetHTML = '<div class="row">';
-                            for (let index = 0; index < twitterData.statuses.length; index++) {
-                                var createdDateTime = new Date(twitterData.statuses[index].created_at).toUTCString();
-           
-                                tweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
-                                    '<div class="card-body">' +
-                                    '<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
-                                    '<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
-                                    '<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
-                                    '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true"></i></span> ' + twitterData.statuses[index].retweet_count + 
-                                    ' <span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true"></i></span> ' + twitterData.statuses[index].favorite_count + '</p>' +
-                                    '<p class="card-text"><small class="text-muted">Created on '+createdDateTime.toString()+' </small></p>' +
-                                    '<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">'+twitterData.statuses[index].id_str+'</span></small></p>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>';
-                            }
-                            tweetHTML += '</div>';
-                    
-                            var tweetsContainer = document.getElementById('tweets');
-                            tweetsContainer.insertAdjacentHTML('beforeend', tweetHTML);
+                        console.log(scheduledTweets)
 
-                        </script>
-                        <% } %>
-                        </div>
-
-                    </div>
-                </tbody>
-                </table>
-            </div>    
-        </div>
-    </div>
-
-
-    <!-- flatpickr scheduling -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
-
-    <script>
-
-    flatpickr("#calendar", {
-        allowInput: true,
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-        altInput: true,
-        altFormat: "F j, Y (h:i K)",
-        minDate: "today",
-        plugins: [
-            ShortcutButtonsPlugin({
-            button: [
-                {label: "Clear"},
-                {label: "Today"},
-                {label: "Tomorrow"}
-            ],
-            onClick: (index, fp) => {
-                let date;
-                switch (index) {
-                case 0:
-                    fp.clear();
-                    fp.close();
-                    break;
-                case 1:
-                    date = new Date();
-                    break;
-                case 2:
-                    date = new Date(Date.now() + 24 * 60 * 60 * 1000);
-                    break;
-                }
-                fp.setDate(date);
-            }
-            })
-        ]
-        });
+                        let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
+                        for (let index = 0; index < scheduledTweets.length; index++) {
         
-    </script>
+                            scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                                '<div class="card-body">' +
+                                '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                                '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                                '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                        }
+                        scheduledTweetHTML += '</div>';
+                
+                        var tweetsContainer = document.getElementById('scheduledTweets');
+                        tweetsContainer.insertAdjacentHTML('beforeend', scheduledTweetHTML); 
 
-  </body>
+                    </script> 
+                </div>
+
+            </div>
+            </tbody>
+
+        </div>
+
+        <!-- Left column ends -->
+
+        <div class="col" id="right">
+            <table class="responsive-table table">
+            <thead>
+                <h2>Hashtag Search</h2>
+                <div class="main-search-input-wrap">
+                    <div class="main-search-input fl-wrap">
+                        <form method="post">
+                        <div class="main-search-input-item"> 
+                        <fieldset>
+                            <div class="input-group">
+                            <input class="form-control" name="hashtag" placeholder="Search a popular term or #hashtag" required type="text">
+                            </div>
+                        </fieldset>
+                        </div> 
+                            <button class="main-search-button" input type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </thead>
+
+            <tbody>
+                <div class="col col-lg-12" id="right-content">
+                    <div>
+                        <% if(hashtag !== null){ %>
+                            <h3>All popular tweets for: <%- hashtag %></h3>
+                            <% } %>
+                    </div>
+                
+                <div id="tweets">
+                
+                    <% if(twitterData !== null){ %>
+                        
+                    <script>
+
+                        let twitterData = <%- JSON.stringify(twitterData) %>;
+                        console.log(twitterData);
+                        let tweetHTML = '<div class="row">';
+                        for (let index = 0; index < twitterData.statuses.length; index++) {
+                            var createdDateTime = new Date(twitterData.statuses[index].created_at).toUTCString();
+        
+                            tweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                                '<div class="card-body">' +
+                                '<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
+                                '<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
+                                '<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
+                                '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i></span> ' + twitterData.statuses[index].retweet_count + 
+                                ' <span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i></span> ' + twitterData.statuses[index].favorite_count + '</p>' +
+                                '<p class="card-text"><small class="text-muted">Created on '+createdDateTime.toString()+' </small></p>' +
+                                '<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">'+twitterData.statuses[index].id_str+'</span></small></p>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                        }
+                        tweetHTML += '</div>';
+                
+                        var tweetsContainer = document.getElementById('tweets');
+                        tweetsContainer.insertAdjacentHTML('beforeend', tweetHTML);
+
+                    </script>
+                    <% } %>
+                    </div>
+
+                </div>
+            </tbody>
+            </table>
+        </div>    
+    </div>
+</div>
+
+
+<!-- flatpickr scheduling -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
+
+<script>
+
+flatpickr("#calendar", {
+    allowInput: true,
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    altInput: true,
+    altFormat: "F j, Y (h:i K)",
+    minDate: "today",
+    plugins: [
+        ShortcutButtonsPlugin({
+        button: [
+            {label: "Clear"},
+            {label: "Today"},
+            {label: "Tomorrow"}
+        ],
+        onClick: (index, fp) => {
+            let date;
+            switch (index) {
+            case 0:
+                fp.clear();
+                fp.close();
+                break;
+            case 1:
+                date = new Date();
+                break;
+            case 2:
+                date = new Date(Date.now() + 24 * 60 * 60 * 1000);
+                break;
+            }
+            fp.setDate(date);
+        }
+        })
+    ]
+    });
+    
+</script>
+
+
+</body>
 </html>
