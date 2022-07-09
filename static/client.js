@@ -41,7 +41,6 @@ const toastShow = document.getElementById('tweetFail')
     toast.show();           
 }
 
-
 function postTweet(event) {
     var tweet = textArea.value;
     var data = {text: tweet};
@@ -65,6 +64,8 @@ function postTweet(event) {
         });
 
     $("#tweet-area").val('');
+
+    countChar();
 }
 
 function scheduleTweet(event) {
@@ -100,7 +101,11 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>' +
         '</div>';
+
+
     $("#tweet-area").val('');
+    countChar();
+
     }
 }
 
@@ -112,12 +117,6 @@ function deleteScheduledTweet(btn) {
     var cardBodyB = btn.parentNode.parentNode;
     var spanWithIdB = cardBodyB.querySelector(".scheduledBody");
     var scheduledBody = spanWithIdB.innerText;
-    // var index = scheduledTweets.findIndex(tweet => tweet.date === scheduledDate);
-    // console.log(index);
-
-    // fetch('/deleteScheduledTweet?index=' + index).
-    //     then(response => response.text()).
-    //     then(text => console.log(text));
 
     fetch('/deleteScheduledTweet', {
         method: 'POST',
@@ -129,5 +128,57 @@ function deleteScheduledTweet(btn) {
         then(response => response.text()).
         then(text => console.log(text));
     cardBody.parentNode.parentNode.remove();
+}
+
+function loadIntoTable(url) {
+    fetch(url).
+        then((data) => {
+            return data.json();
+        }).
+        then((objectData) => {
+            console.log(objectData);
+            bookTable.clear();
+
+            var tableData = objectData.docs.map((book) => {
+                var arr = [
+                    book.title,
+                    book.author_name[0],
+                    book.first_publish_year,
+                    book.first_sentence ? book.first_sentence : ''
+                ];
+                arr.book = book;
+                return arr;
+            });
+
+            bookTable.rows.add(tableData).draw();
+
+            $('#api-body').on('click', 'tr', function () {
+                const tr = $(this).closest('tr');
+                const row = bookTable.row(tr);
+                if(!row.data()){
+                    return;
+                }
+
+                var bookLink = " https://openlibrary.org" + row.data().book.key;
+
+                var tweetDraft = 
+                [
+                    "Check out " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
+                    "Looking for your next book? Why not pick " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink,
+                    "Today's read: " + row.data()[0] + " written by " + row.data()[1] + "." + bookLink,
+                    "A cuppa coffee while reading " + row.data()[0] + " written by " + row.data()[1] + "." + bookLink,
+                    row.data()[0] + " written by " + row.data()[1] + " is our new fav read! Check it out." + bookLink,
+                    "What's on your to-read list today? Ours is " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
+                    "Onto your next reading adventure with " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
+                    "Interested in reading " + row.data()[0] + " written by " + row.data()[1] + "?" + " We've got it at Open Library!" + bookLink,
+                ]
+                var randomTweetDraft = tweetDraft[Math.floor(Math.random() * tweetDraft.length)];
+
+                $('#tweet-area').val(randomTweetDraft);
+                countChar();
+
+                
+            })
+        })
 }
 

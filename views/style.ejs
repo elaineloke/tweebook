@@ -5,22 +5,27 @@ html, body {
 }
 
 #left {
-    height: 80vh;
     padding: 20px;
-    overflow-y: scroll;
+    margin: 10px;
     background-color: #4FC1E9;
 }
   
 #right {
-    height: 80vh;
     padding: 20px;
-    overflow-y: scroll;
+    margin: 10px;
     background-color: #FC6E51;
-    /* position: sticky; */
 }
 
 #right-content {
-    max-height: 50vh;
+    max-height: 100vh;
+    margin-bottom: 60px;
+    overflow-y: scroll;
+    background-color: #6fdfee;
+    position: static;
+}
+
+#left-content {
+    max-height: 100vh;
     margin-bottom: 60px;
     overflow-y: scroll;
     background-color: #6fdfee;
@@ -34,9 +39,12 @@ html, body {
 }
 
 h2 {
-    position: sticky;
     top: 0;
     z-index: 1020;
+}
+
+h5 {
+    padding-top: 10px;
 }
 
 #tweet-area {
@@ -168,6 +176,17 @@ h2 {
 }
 
 /* end of tweeting toast box */
+
+#bookapi {
+    width: 1000px;
+    margin: auto;
+    padding: 0px 100px;
+}
+
+.links-to-books {
+    cursor: pointer;
+}
+
 </style>
 
 
