@@ -33,6 +33,5 @@ function postTweetAtScheduledTime(body, date, twitterClient, file){
       }, millisecondsUntil(date));
 }
 
-
 module.exports = {millisecondsUntil, postTweetAtScheduledTime, filterOldTweets};
 

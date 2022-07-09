@@ -64,6 +64,7 @@ function postTweet(event) {
         });
 
     $("#tweet-area").val('');
+
     countChar();
 }
 
@@ -101,8 +102,10 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>';
 
+
     $("#tweet-area").val('');
     countChar();
+
     }
 }
 
@@ -178,6 +181,4 @@ function loadIntoTable(url) {
             })
         })
 }
-
-
 
