@@ -27,6 +27,7 @@ app.listen(3000, function () {
 //listen for get request for hashtag and twitter data
 app.get('/', function (req, res) {
 
+
   var fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt');
   var file = [];
   if(fileExists) {
@@ -45,7 +46,6 @@ app.get('/', function (req, res) {
 //listen for get request on root url. eg. http://localhost:3000
 app.set('view engine', 'ejs')
 
-
 //connect to Twitter profile
 let Twitter = new twit({
   consumer_key: 'OfmDdnZrNe68Otrz3a14XfCu6',
@@ -54,6 +54,7 @@ let Twitter = new twit({
   access_token_secret: 'dj7MgryefjKWiLeydLQmvUAnIOmAxryTvMlTsLauG0vdc',
   timeout_ms: 60 * 1000, 
   strictSSL: true, 
+
 });
   
 //retrieve and display hashtag search results and scheduled tweets
@@ -68,7 +69,10 @@ app.post('/', function (req, res) {
  
   if (req.body.hashtag !== null) {
 
-  Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
+
+
+Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
+
   catch(function (err) {
     console.log('caught error', err.stack)
     res.render('index', {
@@ -144,6 +148,7 @@ app.get('/retweet', function (req, res) {
   })
 });
 
+
 //favorite tweet on profile when clicked 
 app.get('/favtweet', function (req, res) {
   Twitter.post('favorites/create', {id: req.query.id}, function(err, response){
@@ -154,6 +159,7 @@ app.get('/favtweet', function (req, res) {
       console.log("error with favoriting");
     }
   })
+
 });
 
 //delete scheduled tweet

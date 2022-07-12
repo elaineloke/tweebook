@@ -72,6 +72,7 @@ async function postTweet(event) {
         }
 
     $("#tweet-area").val('');
+
     countChar();
 }
 
@@ -109,8 +110,10 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>';
 
+
     $("#tweet-area").val('');
     countChar();
+
     }
 }
 
@@ -174,16 +177,3 @@ function loadIntoTable(url) {
             })
         })
 }
-
-
-function getFinalImageTemplate() {
-
-    var image = document.getElementById("image-template");
-    var preview = html2canvas(image).
-        then(function (canvas) {
-            var tweetImage = document.createElement("img");
-            tweetImage.src = canvas.toDataURL();
-        }); 
-
-}
-
