@@ -1,4 +1,5 @@
 src="https://code.jquery.com/jquery-3.6.0.min.js";
+var tweetDraft = src="./tweet-draft.js"
 
 function retweetTweet(btn) {
     var cardBody = btn.parentNode.parentNode;
@@ -41,27 +42,34 @@ const toastShow = document.getElementById('tweetFail')
     toast.show();           
 }
 
-function postTweet(event) {
+async function postTweet(event) {
+    
     var tweet = textArea.value;
     var data = {text: tweet};
+
+    if ($("#previewImage").is(':checked')) {
+        var image = document.getElementById("image-template");
+        var canvas = await html2canvas(image);
+        data.image = canvas.toDataURL();
+    } 
     
-    fetch('/postTweet', {
+    var response = await fetch('/postTweet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data), 
-        }).
-        then(response => response.text()).
-        then(text => {
-            console.log(text);
-            if(text == "success") {
-                tweetSuccess();
-            }
-            if(text == "error") {
-                tweetFail();
-            }
         });
+
+    var text = await response.text();
+        
+        console.log(text);
+        if(text == "success") {
+            tweetSuccess();
+        }
+        if(text == "error") {
+            tweetFail();
+        }
 
     $("#tweet-area").val('');
     countChar();
@@ -133,8 +141,9 @@ function loadIntoTable(url) {
             return data.json();
         }).
         then((objectData) => {
-            console.log(objectData);
             bookTable.clear();
+            var imageDiv = document.getElementById("book-api-div");
+            imageDiv.style.display = "block";
 
             var tableData = objectData.docs.map((book) => {
                 var arr = [
@@ -152,32 +161,29 @@ function loadIntoTable(url) {
             $('#api-body').on('click', 'tr', function () {
                 const tr = $(this).closest('tr');
                 const row = bookTable.row(tr);
-                if(!row.data()){
+                const rowData = row.data();
+                if(!rowData){
                     return;
                 }
 
-                var bookLink = " https://openlibrary.org" + row.data().book.key;
+                createRandomTweetDraft(rowData);
+                renderImageTemplate(rowData);
 
-                var tweetDraft = 
-                [
-                    "Check out " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
-                    "Looking for your next book? Why not pick " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink,
-                    "Today's read: " + row.data()[0] + " written by " + row.data()[1] + "." + bookLink,
-                    "A cuppa coffee while reading " + row.data()[0] + " written by " + row.data()[1] + "." + bookLink,
-                    row.data()[0] + " written by " + row.data()[1] + " is our new fav read! Check it out." + bookLink,
-                    "What's on your to-read list today? Ours is " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
-                    "Onto your next reading adventure with " + row.data()[0] + " written by " + row.data()[1] + "!" + bookLink, 
-                    "Interested in reading " + row.data()[0] + " written by " + row.data()[1] + "?" + " We've got it at Open Library!" + bookLink,
-                ]
-                var randomTweetDraft = tweetDraft[Math.floor(Math.random() * tweetDraft.length)];
-
-                $('#tweet-area').val(randomTweetDraft);
-                countChar();
-
-                
+                var imageDiv = document.getElementById("image-div");
+                imageDiv.style.display = "block";
             })
         })
 }
 
 
+function getFinalImageTemplate() {
+
+    var image = document.getElementById("image-template");
+    var preview = html2canvas(image).
+        then(function (canvas) {
+            var tweetImage = document.createElement("img");
+            tweetImage.src = canvas.toDataURL();
+        }); 
+
+}
 

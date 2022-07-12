@@ -47,8 +47,13 @@
     });
     </script>
 
+    <!-- HTML to canvas cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <!-- browser side javascript -->
     <script src ="/client.js"></script>
+    <script src ="/tweet-draft.js"></script>
+
 
 
     <title>TweeBook</title>
@@ -74,7 +79,8 @@
     </div>
 </form>
 
-<div class="container" style="width: 80%">
+<div class="container" style="width: 80%; display: none" id="book-api-div">
+<span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
     <table id="bookApiTable" class="cell-border compact stripe">
 
         <thead>
@@ -89,6 +95,22 @@
     </table>
 </div>
 
+<div class="container" style="display: none" id="image-div">
+<span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
+  <div class="row">
+    <!-- <div class="col-sm" style="margin-left: 100px">
+        <h6>Image Template</h6>
+        <textarea id="image-value" rows="8" style="width: 400px" class="col-sm"></textarea>
+        <button class="button" onclick="getFinalImageTemplate()">Generate Image</button>
+    </div> -->
+    <div class="col-sm">
+        <h5>Preview Image</h5>
+        <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px" contenteditable="true"></div>
+    </div>
+  </div>
+</div>
+
+
 <!-- book api selection ends -->
 
 <!-- left column starts -->
@@ -99,6 +121,7 @@
 
             <textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
             <div id="remaining-chars">280 characters remaining</div>
+            
             <script>
                                 
                 var textArea = document.getElementById("tweet-area");
@@ -115,6 +138,11 @@
                 }
             
             </script>
+
+            <div>
+                <input type="checkbox" name="previewImage" id="previewImage">
+                <label for="previewImage">Include preview image</label>
+            </div>
 
             <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
             <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
@@ -214,7 +242,6 @@
                     <script>
 
                         let twitterData = <%- JSON.stringify(twitterData) %>;
-                        console.log(twitterData);
                         let tweetHTML = '<div class="row">';
                         for (let index = 0; index < twitterData.statuses.length; index++) {
                             var createdDateTime = new Date(twitterData.statuses[index].created_at).toUTCString();
