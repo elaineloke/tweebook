@@ -59,3 +59,4 @@ function postScheduledTweetWithMedia (body, image, date, twitterClient, file) {
 
 module.exports = {millisecondsUntil, postScheduledTweetWithoutMedia, filterOldTweets, postScheduledTweetWithMedia};
 
+

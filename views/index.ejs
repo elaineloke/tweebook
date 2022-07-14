@@ -103,6 +103,7 @@
 <!-- book api selection -->
 
 <!-- left column -->
+
 <div class="container">
     <div class="row">
         <div class="col" id="left">
@@ -175,7 +176,9 @@
             </form>
 
             <tbody>
+
             <div class="col col-lg-12" id="left-content">
+
                 <div id="scheduledTweets">
                 
                     <h5>All scheduled tweets</h5>
@@ -186,6 +189,7 @@
                         scheduledTweets.sort(function(scheduledTweets, nextScheduledTweet){
                             return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
                         })
+
 
                         let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
                         for (let index = 0; index < scheduledTweets.length; index++) {
@@ -226,6 +230,7 @@
 <!-- left column -->
 
 <!-- right column -->
+
         <div class="col" id="right">
             <table class="responsive-table table">
             <thead>
@@ -286,7 +291,6 @@
                     </script>
                     <% } %>
                     </div>
-
                 </div>
             </tbody>
             </table>
@@ -336,6 +340,7 @@ flatpickr("#calendar", {
     });
     
 </script>
+
 
 </body>
 </html>
