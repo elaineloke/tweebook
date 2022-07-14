@@ -6,6 +6,7 @@ const twit = require("twit")
 const bodyParser = require('body-parser')
 const fs = require('fs');
 const twitter = require('./twitter');
+const { parse } = require('path')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "static")));
@@ -95,15 +96,37 @@ Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mix
 //post tweets
 app.post('/postTweet', function (req, res) {
 
-  Twitter.post('statuses/update', {status: req.body.text}, function(err, data, response){
-    if(err){
-      res.send("error");
-    } else {
-      console.log("tweeted");
-      res.send("success");
+  if(req.body.image){
+    Twitter.post('media/upload', { media_data: req.body.image }, function (err, data, response) {
+      var mediaIdStr = data.media_id_string
+      var altText = req.body.text
+      var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+
+      Twitter.post('media/metadata/create', meta_params, function (err, data, response) {
+        if (!err) {
+          var params = { status: req.body.text, media_ids: [mediaIdStr] }
+    
+          Twitter.post('statuses/update', params, function (err, data, response) {
+            if(err){
+              res.send("error");
+            } else {
+              res.send("success");
+            }
+          })
+        }
+      })
+    })
+  } else {
+    Twitter.post('statuses/update', {status: req.body.text}, function(err, data, response){
+      if(err){
+        res.send("error");
+      } else {
+        res.send("success");
+    }
+    })
   }
-  })
-});
+})
+
 
 //schedule tweets
 app.post('/scheduleTweet', function (req, res) {

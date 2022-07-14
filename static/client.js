@@ -1,5 +1,4 @@
 src="https://code.jquery.com/jquery-3.6.0.min.js";
-var tweetDraft = src="./tweet-draft.js"
 
 function retweetTweet(btn) {
     var cardBody = btn.parentNode.parentNode;
@@ -50,7 +49,8 @@ async function postTweet(event) {
     if ($("#previewImage").is(':checked')) {
         var image = document.getElementById("image-template");
         var canvas = await html2canvas(image);
-        data.image = canvas.toDataURL();
+        var canvasURL = canvas.toDataURL().split(',');
+        data.image = canvasURL[1];
     } 
     
     var response = await fetch('/postTweet', {
@@ -59,21 +59,22 @@ async function postTweet(event) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data), 
-        });
+    });
 
     var text = await response.text();
         
-        console.log(text);
-        if(text == "success") {
-            tweetSuccess();
-        }
-        if(text == "error") {
-            tweetFail();
-        }
+    console.log(text);
+    if(text == "success") {
+        tweetSuccess();
+    }
+    if(text == "error") {
+        tweetFail();
+    }
 
     $("#tweet-area").val('');
 
     countChar();
+    $('#previewImage:checked').prop('checked', false);
 }
 
 function scheduleTweet(event) {
