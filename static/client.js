@@ -29,18 +29,6 @@ function favTweet(btn) {
     });    
 }
 
-function tweetSuccess() {
-    const toastShow = document.getElementById('tweeted')
-        const toast = new bootstrap.Toast(toastShow, {delay: 3000});
-        toast.show();           
-}
-
-function tweetFail() {
-const toastShow = document.getElementById('tweetFail')
-    const toast = new bootstrap.Toast(toastShow, {delay: 3000});
-    toast.show();           
-}
-
 async function postTweet(event) {
     
     var tweet = textArea.value;
@@ -63,21 +51,18 @@ async function postTweet(event) {
 
     var text = await response.text();
         
-    console.log(text);
     if(text == "success") {
         tweetSuccess();
     }
     if(text == "error") {
         tweetFail();
     }
+    
+    resetToDefaultSettings();
 
-    $("#tweet-area").val('');
-
-    countChar();
-    $('#previewImage:checked').prop('checked', false);
 }
 
-function scheduleTweet(event) {
+async function scheduleTweet(event) {
     var tweet = textArea.value;
     var data = {text: tweet};
 
@@ -86,6 +71,13 @@ function scheduleTweet(event) {
     var datetime = {text: calendarVal};
 
     var scheduledTweet = {body: data.text, date: datetime.text};
+
+    if ($("#previewImage").is(':checked')) {
+        var image = document.getElementById("image-template");
+        var canvas = await html2canvas(image);
+        var canvasURL = canvas.toDataURL().split(',');
+        scheduledTweet.image = canvasURL[1];
+    } 
 
     if(tweet == '' || calendarVal == ''){
         console.log("error");
@@ -99,10 +91,30 @@ function scheduleTweet(event) {
         body: JSON.stringify(scheduledTweet), 
         }).
         then(response => response.text()).
-        then(text => console.log(text));
+        then(text => {
+            console.log(text);
+            if(text == "success") {
+                scheduleTweetSuccess();
+            }
+            if(text == "error") {
+                scheduleTweetFail();
+            }
+        });
 
     var scheduledContainer = document.getElementById("scheduledTweetContainer");
-    scheduledContainer.innerHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+
+    if(scheduledTweet.image) {
+        scheduledContainer.innerHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+        '<div class="card-body">' +
+        '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweet.date + '</h6>' +
+        '<p class="card-text scheduledBody">' + scheduledTweet.body + '</p>' +
+        '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweet.image + '"/>' + '</div>' +
+        '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+        '</div>' +
+        '</div>' +
+        '</div>';
+    } else {
+        scheduledContainer.innerHTML += '<div class="col-sm-12"><div class="card mb-3">' +
         '<div class="card-body">' +
         '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweet.date + '</h6>' +
         '<p class="card-text scheduledBody">' + scheduledTweet.body + '</p>' +
@@ -110,10 +122,9 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>' +
         '</div>';
+    }
 
-
-    $("#tweet-area").val('');
-    countChar();
+    resetToDefaultSettings();
 
     }
 }

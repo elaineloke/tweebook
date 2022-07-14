@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const fs = require('fs');
 const twitter = require('./twitter');
 const { parse } = require('path')
+const e = require('express')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "static")));
@@ -20,7 +21,11 @@ app.listen(3000, function () {
     const file = JSON.parse(data);
 
     file.forEach(element => {
-      twitter.postTweetAtScheduledTime(element.body, element.date, Twitter, file);
+      if(element.image){
+        twitter.postScheduledTweetWithMedia(element.body, element.image, element.date, Twitter, file);
+      } else {
+        twitter.postScheduledTweetWithoutMedia(element.body, element.date, Twitter, file);
+      }
     });
   }
 })
@@ -146,14 +151,22 @@ app.post('/scheduleTweet', function (req, res) {
   for (let element of file){
     if(element.body === tweet.body && element.date === tweet.date){
       console.log("repeated tweet");
+      res.send("error");
       return false;
     }
   }
+  
   try {
     file.push(tweet);
     var content = JSON.stringify(file);
     fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content);
-    twitter.postTweetAtScheduledTime(tweet.body, tweet.date, Twitter, file);
+
+    if(tweet.image) {
+      twitter.postScheduledTweetWithMedia(tweet.body, tweet.image, tweet.date, Twitter, file);
+    } else {
+      twitter.postScheduledTweetWithoutMedia(tweet.body, tweet.date, Twitter, file);
+    }
+    res.send("success");
   } catch (err) {
     console.log('Error parsing', err);
   }

@@ -26,11 +26,12 @@
 
     <!-- flatpickr -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css" type="text/css">
 
     <!-- flatpickr plugin -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/themes/material_blue.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/themes/material_green.min.css">
     <script src="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/shortcut-buttons-flatpickr.min.js"></script>
 
     <!-- datatables -->
@@ -52,8 +53,8 @@
 
     <!-- browser side javascript -->
     <script src ="/client.js"></script>
+    <script src ="/toastbox.js"></script>
     <script src ="/tweet-draft.js"></script>
-
 
     <title>TweeBook</title>
 
@@ -62,7 +63,7 @@
 
 <h1 id="h1">TweeBook</h1>
 
-<!-- book api selection starts -->
+<!-- book api selection -->
 <form id="bookapi"> 
     <div class="form-group">
         <label>Links to books</label>
@@ -73,7 +74,6 @@
             <option value="https://openlibrary.org/search.json?language=eng&has_fulltext=true&subject=Fantasy&subject_facet=Fantasy" onclick="loadIntoTable(this.value)">Fantasy</option>
             <option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Romance&subject_facet=Romance" onclick="loadIntoTable(this.value)">Romance</option>
             <option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Thriller&subject_facet=Thriller" onclick="loadIntoTable(this.value)">Thriller</option>
-
         </select>
     </div>
 </form>
@@ -81,7 +81,6 @@
 <div class="container" style="width: 80%; display: none" id="book-api-div">
 <span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
     <table id="bookApiTable" class="cell-border compact stripe">
-
         <thead>
             <tr>
                 <th>Title</th>
@@ -101,9 +100,9 @@
 </div>
 
 
-<!-- book api selection ends -->
+<!-- book api selection -->
 
-<!-- left column starts -->
+<!-- left column -->
 
 <div class="container">
     <div class="row">
@@ -138,7 +137,9 @@
             <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
             <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
 
-            <div id="tweeted" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+<!-- toast box messages -->
+
+            <div id="tweetSuccess" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Tweeted!</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -151,6 +152,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
+
+            <div id="scheduleSuccess" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Tweet has been scheduled.</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div id="scheduleFail" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Error tweeting! <br> Repeated tweets not allowed. </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+ <!-- toast box messages -->           
 
             <form class="flatpickr"> 
                 <div class="col col-lg-5">
@@ -176,15 +193,27 @@
 
                         let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
                         for (let index = 0; index < scheduledTweets.length; index++) {
-        
-                            scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
-                                '<div class="card-body">' +
-                                '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
-                                '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
-                                '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
-                                '</div>' +
-                                '</div>' +
-                                '</div>';
+
+                            if(scheduledTweets[index].image){
+                                 scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                                    '<div class="card-body">' +
+                                    '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                                    '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                                    '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/>' + '</div>' +
+                                    '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                            } else {
+                                scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                                    '<div class="card-body">' +
+                                    '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                                    '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                                    '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
                         }
                         scheduledTweetHTML += '</div>';
                 
@@ -198,9 +227,9 @@
 
         </div>
 
-<!-- left column ends -->
+<!-- left column -->
 
-<!-- right column starts -->
+<!-- right column -->
 
         <div class="col" id="right">
             <table class="responsive-table table">
@@ -269,10 +298,9 @@
     </div>
 </div>
 
-<!-- right column ends -->
+<!-- right column -->
 
 <!-- flatpickr scheduling -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
 
 <script>
 
@@ -285,10 +313,11 @@ flatpickr("#calendar", {
     minDate: "today",
     plugins: [
         ShortcutButtonsPlugin({
+        theme: 'material-green',
         button: [
             {label: "Clear"},
             {label: "Today"},
-            {label: "Tomorrow"}
+            {label: "Tomorrow"},
         ],
         onClick: (index, fp) => {
             let date;
