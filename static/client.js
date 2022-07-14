@@ -72,6 +72,7 @@ async function postTweet(event) {
     }
 
     $("#tweet-area").val('');
+
     countChar();
     $('#previewImage:checked').prop('checked', false);
 }
@@ -110,8 +111,10 @@ function scheduleTweet(event) {
         '</div>' +
         '</div>';
 
+
     $("#tweet-area").val('');
     countChar();
+
     }
 }
 
@@ -175,5 +178,3 @@ function loadIntoTable(url) {
             })
         })
 }
-
-
