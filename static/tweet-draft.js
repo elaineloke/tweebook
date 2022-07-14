@@ -18,11 +18,6 @@ function createRandomTweetDraft(rowData) {
     countChar();
 }
 
-function closeDiv(btn) {
-    var div = btn.parentNode;
-    div.style.display = "none";
-}
-
 function renderImageTemplate(rowData) {
     $('#image-template').html(
         `<h5 style="text-align: center; font-weight: bold">`+ rowData[0] +`</h5>` +
@@ -30,4 +25,17 @@ function renderImageTemplate(rowData) {
         `<p style="text-align: center; background-color: #1da1f2; color: white">` + "&quot;" + rowData[3] + "&quot;" + `<span style="font-size: 13px; font-style: italic">` + " – An excerpt from " + rowData[0] + `</span>` + `</p>` + 
         `<p style="text-align: left; font-size: 13px">` + "First publish year: " + rowData[2] +`</p>`
         );
+}
+
+function closeDiv(btn) {
+    var div = btn.parentNode;
+    div.style.display = "none";
+}
+
+function resetToDefaultSettings() {
+    $("#tweet-area").val('');
+    countChar();
+    $('#previewImage:checked').prop('checked', false);
+    var imageDiv = document.getElementById("image-div");
+    imageDiv.style.display = "none";
 }

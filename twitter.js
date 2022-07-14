@@ -22,7 +22,7 @@ function filterOldTweets(tweets){
     return updatedScheduledTweets;
 }
 
-function postTweetAtScheduledTime(body, date, twitterClient, file){
+function postScheduledTweetWithoutMedia(body, date, twitterClient, file){
     setTimeout(() => {
         twitterClient.post('statuses/update', {status: body}, function(err, data, response){
           console.log("tweeted");
@@ -34,5 +34,28 @@ function postTweetAtScheduledTime(body, date, twitterClient, file){
 }
 
 
-module.exports = {millisecondsUntil, postTweetAtScheduledTime, filterOldTweets};
+function postScheduledTweetWithMedia (body, image, date, twitterClient, file) {
+    setTimeout( () => {
+        twitterClient.post('media/upload', { media_data: image }, function (err, data, response) {
+          var mediaIdStr = data.media_id_string
+          var altText = body
+          var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+    
+          twitterClient.post('media/metadata/create', meta_params, function (err, data, response) {
+            if (!err) {
+              var params = { status: body, media_ids: [mediaIdStr] }
+      
+              twitterClient.post('statuses/update', params, function (err, data, response) {
+                  console.log("tweeted");
+                  var updatedScheduledTweets = filterOldTweets(file);
+                  var content = JSON.stringify(updatedScheduledTweets);
+                  fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content);
+              })
+            }
+          })
+        })
+    }, millisecondsUntil(date));
+}
+
+module.exports = {millisecondsUntil, postScheduledTweetWithoutMedia, filterOldTweets, postScheduledTweetWithMedia};
 
