@@ -14,9 +14,9 @@ Social media is a great tool for marketing and promotion, however, it can be tim
 - ExpressJS 
 - jQuery
 - Bootstrap
-- Flatpickr(https://flatpickr.js.org/)
-- Twit(https://github.com/ttezel/twit)
-- Font Awesome(https://fontawesome.com/)
+- [Flatpickr](https://flatpickr.js.org/)
+- [Twit](https://github.com/ttezel/twit)
+- [Font Awesome](https://fontawesome.com/)
 
 ### To Build
 Initialise on port 3000 <br>
