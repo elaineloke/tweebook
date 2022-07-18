@@ -101,6 +101,7 @@ async function postTweet(event) {
     }
     
     resetToDefaultSettings();
+
 }
 
 //schedule tweet
@@ -167,6 +168,7 @@ async function scheduleTweet(event) {
     }
 
     resetToDefaultSettings();
+
     }
 }
 
@@ -232,5 +234,3 @@ function loadIntoTable(url) {
             })
         })
 }
-
-

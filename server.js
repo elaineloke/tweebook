@@ -33,6 +33,7 @@ app.listen(3000, function () {
 //listen for get request for hashtag and twitter data
 app.get('/', function (req, res) {
 
+
   var fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt');
   var file = [];
   if(fileExists){
@@ -52,15 +53,15 @@ app.get('/', function (req, res) {
 //listen for get request on root url. eg. http://localhost:3000
 app.set('view engine', 'ejs')
 
-
 //connect to Twitter profile
 let Twitter = new twit({
-  consumer_key: 'OfmDdnZrNe68Otrz3a14XfCu6',
-  consumer_secret: 'qyaT2USeBZtw0BYVQGVl3SUOzyzYbUVHnyscs5gdwIb4KidV0R',
-  access_token: '1487423447504498688-geVD4HEkyXQCctUFQTC34uQg4s48Qe',
-  access_token_secret: 'dj7MgryefjKWiLeydLQmvUAnIOmAxryTvMlTsLauG0vdc',
+  consumer_key: '',
+  consumer_secret: '',
+  access_token: '',
+  access_token_secret: '',
   timeout_ms: 60 * 1000, 
   strictSSL: true, 
+
 });
   
 //retrieve and display hashtag search results and scheduled tweets
@@ -75,7 +76,10 @@ app.post('/', function (req, res) {
 
   if (req.body.hashtag !== null) {
 
-  Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
+
+
+Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
+
   catch(function (err) {
     console.log('caught error', err.stack)
     res.render('index', {
@@ -182,6 +186,7 @@ app.get('/retweet', function (req, res) {
   })
 });
 
+
 //undo retweet 
 app.get('/undoRetweet', function (req, res) {
   Twitter.post('statuses/destroy/:id', {id: req.query.id}, function(err, response){
@@ -195,6 +200,7 @@ app.get('/undoRetweet', function (req, res) {
   })
 });
 
+
 //favorite tweet on profile when clicked 
 app.get('/favtweet', function (req, res) {
   Twitter.post('favorites/create', {id: req.query.id}, function(err, data, response){
@@ -206,6 +212,7 @@ app.get('/favtweet', function (req, res) {
       console.log("error with favoriting");
     }
   })
+
 });
 
 //undo favorite tweet 
