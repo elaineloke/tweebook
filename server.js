@@ -46,10 +46,10 @@ app.set('view engine', 'ejs')
 
 //connect to Twitter profile
 let Twitter = new twit({
-  consumer_key: 'OfmDdnZrNe68Otrz3a14XfCu6',
-  consumer_secret: 'qyaT2USeBZtw0BYVQGVl3SUOzyzYbUVHnyscs5gdwIb4KidV0R',
-  access_token: '1487423447504498688-geVD4HEkyXQCctUFQTC34uQg4s48Qe',
-  access_token_secret: 'dj7MgryefjKWiLeydLQmvUAnIOmAxryTvMlTsLauG0vdc',
+  consumer_key: '',
+  consumer_secret: '',
+  access_token: '',
+  access_token_secret: '',
   timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
   strictSSL: true, // optional - requires SSL certificates to be valid.
 });
