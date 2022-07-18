@@ -57,6 +57,15 @@ function postScheduledTweetWithMedia (body, image, date, twitterClient, file) {
     }, millisecondsUntil(date));
 }
 
-module.exports = {millisecondsUntil, postScheduledTweetWithoutMedia, filterOldTweets, postScheduledTweetWithMedia};
+function loadSchedulingFile() {
+  var fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt');
+  var file = [];
+  if(fileExists){
+    var data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8');
+    file = JSON.parse(data);
+  }
+}
+
+module.exports = {millisecondsUntil, postScheduledTweetWithoutMedia, filterOldTweets, postScheduledTweetWithMedia, loadSchedulingFile};
 
 

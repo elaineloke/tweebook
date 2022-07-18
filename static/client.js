@@ -1,34 +1,76 @@
 src="https://code.jquery.com/jquery-3.6.0.min.js";
 
+
+//retweet tweet
+var retweetCount = 0;
+var retweetId = 0;
+
 function retweetTweet(btn) {
     var cardBody = btn.parentNode.parentNode;
     var spanWithId = cardBody.querySelector(".tweetId");
     var tweetId = spanWithId.innerText;
 
-    fetch('/retweet?id=' + tweetId).
+    retweetCount++;
+ 
+    if(retweetCount%2 == 1){
+        fetch('/retweet?id=' + tweetId).
+        then(response => response.text()).
+        then(text => {
+            retweetId = text;
+        });
+        
+        $("#tweets").click(function(){
+            $(this).find(btn).css('color','green');
+        });        
+    } 
+    if(retweetCount%2 == 0){
+        fetch('/undoRetweet?id=' + retweetId).
         then(response => response.text()).
         then(text => console.log(text));
 
-    $("#tweets").click(function(){
-        $(this).find(btn).css('color','green');
-    });
+        $("#tweets").click(function(){
+            $(this).find(btn).css('color','black');
+        });
+    }  
 }
 
+//like tweet
+
+var favCount = 0;
+var favTweetId = 0;
 
 function favTweet(btn) {
     var cardBody = btn.parentNode.parentNode;
     var spanWithId = cardBody.querySelector(".tweetId");
     var tweetId = spanWithId.innerText;
 
-    fetch('/favtweet?id=' + tweetId).
+    favCount++;
+
+    if(favCount%2 == 1){
+        fetch('/favtweet?id=' + tweetId).
+        then(response => response.text()).
+        then(text => {
+            favTweetId = text;
+        });
+
+        $("#tweets").click(function(){
+            $(this).find(btn).css('color','red');
+        }); 
+    }
+    if(favCount%2 == 0){
+        console.log(favTweetId);
+        fetch('/undoFavTweet?id=' + favTweetId).
         then(response => response.text()).
         then(text => console.log(text));
 
-    $("#tweets").click(function(){
-        $(this).find(btn).css('color','red');
-    });    
+        $("#tweets").click(function(){
+            $(this).find(btn).css('color','black');
+        });
+    }  
+      
 }
 
+//post tweet
 async function postTweet(event) {
     
     var tweet = textArea.value;
@@ -62,6 +104,7 @@ async function postTweet(event) {
 
 }
 
+//schedule tweet
 async function scheduleTweet(event) {
     var tweet = textArea.value;
     var data = {text: tweet};
@@ -109,7 +152,7 @@ async function scheduleTweet(event) {
         '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweet.date + '</h6>' +
         '<p class="card-text scheduledBody">' + scheduledTweet.body + '</p>' +
         '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweet.image + '"/>' + '</div>' +
-        '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+        '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer; color: red; font-size: 12px"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
         '</div>' +
         '</div>' +
         '</div>';
@@ -118,7 +161,7 @@ async function scheduleTweet(event) {
         '<div class="card-body">' +
         '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweet.date + '</h6>' +
         '<p class="card-text scheduledBody">' + scheduledTweet.body + '</p>' +
-        '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
+        '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer; color: red; font-size: 12px"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
         '</div>' +
         '</div>' +
         '</div>';
@@ -129,6 +172,7 @@ async function scheduleTweet(event) {
     }
 }
 
+//delete scheduled tweet
 function deleteScheduledTweet(btn) {
     var cardBody = btn.parentNode.parentNode;
     var spanWithId = cardBody.querySelector(".scheduledDate");
@@ -150,6 +194,7 @@ function deleteScheduledTweet(btn) {
     cardBody.parentNode.parentNode.remove();
 }
 
+//populate datatables with books details
 function loadIntoTable(url) {
     fetch(url).
         then((data) => {
