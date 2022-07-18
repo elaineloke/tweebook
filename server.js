@@ -35,16 +35,17 @@ app.get('/', function (req, res) {
 
   var fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt');
   var file = [];
-  if(fileExists) {
+  if(fileExists){
     var data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8');
     file = JSON.parse(data);
   }
-    res.render('index',  {
-      hashtag: null, 
-      twitterData: null, 
-      tweetbox: null,
-      scheduledTweets: file
-    });
+
+  res.render('index',  {
+    hashtag: null, 
+    twitterData: null, 
+    tweetbox: null,
+    scheduledTweets: file
+  });
 })
 
 
@@ -71,7 +72,7 @@ app.post('/', function (req, res) {
     var data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8');
     file = JSON.parse(data);
   }
- 
+
   if (req.body.hashtag !== null) {
 
   Twitter.get('search/tweets', {q: req.body.hashtag, count: 100, result_type: "mixed" }).
@@ -170,9 +171,10 @@ app.post('/scheduleTweet', function (req, res) {
 
 //retweet tweet to profile when clicked 
 app.get('/retweet', function (req, res) {
-  Twitter.post('statuses/retweet/:id', {id: req.query.id}, function(err, response){
+  Twitter.post('statuses/retweet/:id', {id: req.query.id}, function(err, data, response){
     if(response){
       console.log("retweeted");
+      res.send(data.id_str);
     }
     if(err){
       console.log("error with retweeting");
@@ -180,17 +182,46 @@ app.get('/retweet', function (req, res) {
   })
 });
 
+//undo retweet 
+app.get('/undoRetweet', function (req, res) {
+  Twitter.post('statuses/destroy/:id', {id: req.query.id}, function(err, response){
+    if(response){
+      console.log("undo retweet");
+    }
+    if(err){
+      console.log("error with undo retweet");
+      console.log(err);
+    }
+  })
+});
+
 //favorite tweet on profile when clicked 
 app.get('/favtweet', function (req, res) {
-  Twitter.post('favorites/create', {id: req.query.id}, function(err, response){
+  Twitter.post('favorites/create', {id: req.query.id}, function(err, data, response){
     if(response){
       console.log("favorited");
+      res.send(data.id_str);
     }
     if(err){
       console.log("error with favoriting");
     }
   })
 });
+
+//undo favorite tweet 
+app.get('/undoFavTweet', function (req, res) {
+  Twitter.post('favorites/destroy', {id: req.query.id}, function(err, response){
+    console.log(req.query.id)
+    if(response){
+      console.log("undo favorite tweet");
+    }
+    if(err){
+      console.log("error with undo favoriting");
+      console.log(err);
+    }
+  })
+});
+
 
 //delete scheduled tweet
 app.post('/deleteScheduledTweet', function (req, res) {
