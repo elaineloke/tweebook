@@ -35,7 +35,6 @@ function retweetTweet(btn) {
 }
 
 //like tweet
-
 var favCount = 0;
 var favTweetId = 0;
 
@@ -101,7 +100,6 @@ async function postTweet(event) {
     }
     
     resetToDefaultSettings();
-
 }
 
 //schedule tweet
@@ -151,7 +149,7 @@ async function scheduleTweet(event) {
         '<div class="card-body">' +
         '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweet.date + '</h6>' +
         '<p class="card-text scheduledBody">' + scheduledTweet.body + '</p>' +
-        '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweet.image + '"/>' + '</div>' +
+        '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweet.image + '"/ style="width: 400px">' + '</div>' +
         '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="retweetButton" style="cursor: pointer; color: red; font-size: 12px"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
         '</div>' +
         '</div>' +
@@ -168,7 +166,6 @@ async function scheduleTweet(event) {
     }
 
     resetToDefaultSettings();
-
     }
 }
 
@@ -234,3 +231,5 @@ function loadIntoTable(url) {
             })
         })
 }
+
+
