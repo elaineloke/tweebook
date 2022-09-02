@@ -93,17 +93,16 @@
     </table>
 </div>
 
-<div class="container" style="display: none" id="image-div">
+ <div class="container" style="display: none" id="image-div">
     <span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
     <h5>Preview Image</h5>
-    <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px" contenteditable="true"></div>
-</div>
+    <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div>
+</div> 
 
 
 <!-- book api selection -->
 
 <!-- left column -->
-
 <div class="container">
     <div class="row">
         <div class="col" id="left">
@@ -176,9 +175,7 @@
             </form>
 
             <tbody>
-
             <div class="col col-lg-12" id="left-content">
-
                 <div id="scheduledTweets">
                 
                     <h5>All scheduled tweets</h5>
@@ -190,7 +187,6 @@
                             return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
                         })
 
-
                         let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
                         for (let index = 0; index < scheduledTweets.length; index++) {
 
@@ -199,7 +195,7 @@
                                     '<div class="card-body">' +
                                     '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
                                     '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
-                                    '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/>' + '</div>' +
+                                    '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/ style="width: 400px" >' + '</div>' +
                                     '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
                                     '</div>' +
                                     '</div>' +
@@ -230,7 +226,6 @@
 <!-- left column -->
 
 <!-- right column -->
-
         <div class="col" id="right">
             <table class="responsive-table table">
             <thead>
@@ -275,8 +270,8 @@
                                 '<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
                                 '<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
                                 '<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
-                                '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i></span>' + '<span class="retweetcount">' + twitterData.statuses[index].retweet_count + '</span>' + 
-                                ' <span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i>' + twitterData.statuses[index].favorite_count + '</span>' + '</p>' +
+                                '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="retweetcount">' + twitterData.statuses[index].retweet_count + '</span>' + '</span>' +
+                                '<span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="favCount">' + twitterData.statuses[index].favorite_count + '</span>' + '</span>' + '</p>' +
                                 '<p class="card-text"><small class="text-muted">Created on '+createdDateTime.toString()+' </small></p>' +
                                 '<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">'+twitterData.statuses[index].id_str+'</span></small></p>' +
                                 '</div>' +
@@ -291,6 +286,7 @@
                     </script>
                     <% } %>
                     </div>
+
                 </div>
             </tbody>
             </table>
@@ -340,7 +336,6 @@ flatpickr("#calendar", {
     });
     
 </script>
-
 
 </body>
 </html>
