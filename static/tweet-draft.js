@@ -1,16 +1,17 @@
 function createRandomTweetDraft(rowData) {
     var bookLink = " https://openlibrary.org" + rowData.book.key;
+    var hashtags = "\n \n" + "#book #books #read #reads #reading #bibliophile #DailyReads #GreatReads #WhatToRead"
 
     var tweetDraft = 
     [
-        "Check out " + rowData[0] + " written by " + rowData[1] + "!" + bookLink, 
-        "Looking for your next book? Why not pick " + rowData[0] + " written by " + rowData[1] + "!" + bookLink,
-        "Today's read: " + rowData[0] + " written by " + rowData[1] + "." + bookLink,
-        "A cuppa coffee while reading " + rowData[0] + " written by " + rowData[1] + "." + bookLink,
-        rowData[0] + " written by " + rowData[1] + " is our new fav read! Check it out." + bookLink,
-        "What's on your to-read list today? Ours is " + rowData[0] + " written by " + rowData[1] + "!" + bookLink, 
-        "Onto your next reading adventure with " + rowData[0] + " written by " + rowData[1] + "!" + bookLink, 
-        "Interested in reading " + rowData[0] + " written by " + rowData[1] + "?" + " It is available at Open Library!" + bookLink,
+        "Check out " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags, 
+        "Looking for your next book? Why not pick " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags,
+        "Today's read: " + rowData[0] + " written by " + rowData[1] + "." + bookLink + hashtags,
+        "Have a cuppa coffee while reading " + rowData[0] + " written by " + rowData[1] + "." + bookLink + hashtags,
+        rowData[0] + " written by " + rowData[1] + " is our new fav read! Check it out." + bookLink + hashtags,
+        "What's on your to-read list today? Ours is " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags, 
+        "Onto your next reading adventure with " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags, 
+        "Interested in reading " + rowData[0] + " written by " + rowData[1] + "?" + " It is available at Open Library!" + bookLink + hashtags,
     ]
     var randomTweetDraft = tweetDraft[Math.floor(Math.random() * tweetDraft.length)];
 

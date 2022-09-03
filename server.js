@@ -9,9 +9,9 @@ const twitter = require('./twitter');
 const { parse } = require('path')
 const e = require('express')
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '25mb', extended: true }));
 app.use(express.static(path.join(__dirname, "static")));
-app.use(express.json());
+app.use(express.json({limit: '25mb'}));
 
 //start server & listen on port 3000
 app.listen(3000, function () {
@@ -166,6 +166,7 @@ app.post('/scheduleTweet', function (req, res) {
     res.send("success");
   } catch (err) {
     console.log('Error parsing', err);
+    res.send("error");
   }
 })
 

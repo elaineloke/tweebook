@@ -93,6 +93,7 @@ async function postTweet(event) {
     var text = await response.text();
         
     if(text == "success") {
+        console.log('look here' + text)
         tweetSuccess();
     }
     if(text == "error") {
