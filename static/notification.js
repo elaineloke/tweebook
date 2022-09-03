@@ -5,7 +5,7 @@ function tweetSuccess() {
 
 function tweetFail() {
     const toastShow = document.getElementById('tweetFail')
-    showNotification('Error! ', 'There was an issue posting your tweet. Please try again.', '#fff', '#bb0e10' )                 
+    showNotification('Error! ', 'There was an issue posting your tweet. Please try again.', '#fadcdc', '#bb0e10' )                 
 }
 
 function scheduleTweetSuccess() {
@@ -15,7 +15,7 @@ function scheduleTweetSuccess() {
 
 function scheduleTweetFail() {
     const toastShow = document.getElementById('scheduleFail')
-    showNotification('Error! ', 'There was an issue scheduling your tweet. Please try again.', '#fff', '#bb0e10' )                            
+    showNotification('Error! ', 'There was an issue scheduling your tweet. Please try again.', '#fadcdc', '#bb0e10' )                            
 }
 
 function showNotification(header, content, backgroundColour, textColour ,duration) {

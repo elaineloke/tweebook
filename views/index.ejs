@@ -55,6 +55,7 @@
     <script src ="/client.js"></script>
     <script src ="/notification.js"></script>
     <script src ="/tweet-draft.js"></script>
+    <script src ="/preview-colors.js"></script>
 
     <title>TweeBook</title>
 
@@ -94,9 +95,18 @@
 </div>
 
  <div class="container" style="display: none" id="image-div">
-    <span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
+     <p class="close" onclick="closeDiv(this)" style="cursor:pointer; text-align:right; margin-right: 65px">x</p>
+
+ <div class="row">
+ <div class="col" id="colorPicker">  
+    <span>Select background colour: </span><br><input type="color" id="background-colorpicker" value="#1da1f2" onclick="changeBackgroundColor()"><br>
+    <span>Select text colour: </span><br><input type="color" id="text-colorpicker" value="#ffffff" onclick="changeTextColor()">
+ </div>
+ <div class="col" id="previewImageDiv">
     <h5>Preview Image</h5>
-    <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div>
+    <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div><br>
+ </div> 
+</div> 
 </div> 
 
 
