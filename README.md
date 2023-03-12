@@ -1,5 +1,5 @@
 # TweeBook
-## Easy Twitter Content Creation and Management
+## Twitter Content Creation and Management
 Tweebook is a web application built for books related society such as libraries and book clubs. It provides easy Twitter account management with its hashtag viewing tool and automated tweet content creation to share, promote and/or advertise books available online. <br><br>
 
 Social media is a great tool for marketing and promotion, however, it can be time consuming to create contents every single day. Tweebook delivers some key features to support tweets curation, such as: <br>
