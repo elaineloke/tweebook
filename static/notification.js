@@ -28,7 +28,7 @@ function showNotification(header, content, backgroundColour, textColour ,duratio
 
     //create notification div bar
     if ($('#notification-bar').length == 0) {
-        var HTMLmessage = "<div style='line-height: " + height + "px;'> " + "<strong style='margin-left: 20px'>" + header + "</strong>" + content + " </div>";
+        let HTMLmessage = "<div style='line-height: " + height + "px;'> " + "<strong style='margin-left: 20px'>" + header + "</strong>" + content + " </div>";
         $('body').prepend("<div id='notification-bar' style='display:none; width:100%; height:" + height + "px; background-color: " + backgroundColour + "; position: fixed; z-index: 1; color: " + textColour + ";'>" + HTMLmessage + "</div>");
     }
     

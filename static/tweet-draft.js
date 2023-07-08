@@ -1,8 +1,8 @@
 function createRandomTweetDraft(rowData) {
-    var bookLink = " https://openlibrary.org" + rowData.book.key;
-    var hashtags = "\n \n" + "#book #books #read #reads #reading #bibliophile #DailyReads #GreatReads #WhatToRead"
+    let bookLink = " https://openlibrary.org" + rowData.book.key;
+    let hashtags = "\n \n" + "#book #books #read #reads #reading #bibliophile #DailyReads #GreatReads #WhatToRead"
 
-    var tweetDraft = 
+    let tweetDraft = 
     [
         "Check out " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags, 
         "Looking for your next book? Why not pick " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags,
@@ -13,7 +13,7 @@ function createRandomTweetDraft(rowData) {
         "Onto your next reading adventure with " + rowData[0] + " written by " + rowData[1] + "!" + bookLink + hashtags, 
         "Interested in reading " + rowData[0] + " written by " + rowData[1] + "?" + " It is available at Open Library!" + bookLink + hashtags,
     ]
-    var randomTweetDraft = tweetDraft[Math.floor(Math.random() * tweetDraft.length)];
+    let randomTweetDraft = tweetDraft[Math.floor(Math.random() * tweetDraft.length)];
 
     $('#tweet-area').val(randomTweetDraft);
     countChar();
@@ -29,7 +29,7 @@ function renderImageTemplate(rowData) {
 }
 
 function closeDiv(btn) {
-    var div = btn.parentNode;
+    let div = btn.parentNode;
     div.style.display = "none";
 }
 
@@ -37,6 +37,6 @@ function resetToDefaultSettings() {
     $("#tweet-area").val('');
     countChar();
     $('#previewImage:checked').prop('checked', false);
-    var imageDiv = document.getElementById("image-div");
+    let imageDiv = document.getElementById("image-div");
     imageDiv.style.display = "none";
 }
