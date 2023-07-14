@@ -12,13 +12,16 @@ Social media is a great tool for marketing and promotion, however, it can be tim
 ## Tweebook Is Built With
 - NodeJS
 - ExpressJS 
+- EJS
+- MongoDB
 - jQuery
 - Bootstrap
+- Twitter-api-v2 library 
 - [Flatpickr](https://flatpickr.js.org/)
 - [Twit](https://github.com/ttezel/twit)
 - [Font Awesome](https://fontawesome.com/)
 
 ### To Build
 Initialise on port 3000 <br>
-```node server.js``` <br>
-On browser: https://localhost:3000
+```npm run start``` <br>
+The server will connect to MongoDB and automatically open a web browser window to request permission to read and write for @tweebookbot Twitter profile. After authorising the app, user will be directed to http://localhost:3000/.
