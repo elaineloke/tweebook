@@ -18,6 +18,16 @@ function scheduleTweetFail() {
     showNotification('Error! ', 'There was an issue scheduling your tweet. Please try again.', '#fadcdc', '#bb0e10' )                            
 }
 
+function deleteTweetSuccess() {
+    const toastShow = document.getElementById('deleteSuccess')
+    showNotification('Success! ', 'Your tweet was deleted from the database successfully.')                   
+}
+
+function deleteTweetFail() {
+    const toastShow = document.getElementById('deleteFail')
+    showNotification('Error! ', 'There was an issue deleting your tweet from the database.',  '#fadcdc', '#bb0e10')                   
+}
+
 function showNotification(header, content, backgroundColour, textColour ,duration) {
 
     //set default values

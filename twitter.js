@@ -16,25 +16,13 @@ function millisecondsUntil(dateStr) {
     return milliseconds - Date.now();
 }
 
-function filterOldTweets(tweets){
-    let updatedScheduledTweets = [];
-    for(let i=0; i < tweets.length; i++) {
-        let date = tweets[i].date;
-        if(millisecondsUntil(date) > 0) {
-            updatedScheduledTweets.push(tweets[i]);
-        }   
-    }
-    return updatedScheduledTweets;
-}
-
-function postScheduledTweetWithoutMedia(body, date, twitterClient, file){
+function postScheduledTweetWithoutMedia(body, date, twitterClient, database){
     setTimeout(() => {
         twitterClient?.v2.tweet(body) // optional chaining needed to prevent nasty error when authentication is not completed yet when server starts running
-        .then((tweet) => {
+        .then(async(tweet) => {
           console.log('tweet sent', tweet)
-          let updatedScheduledTweets = filterOldTweets(file);
-          let content = JSON.stringify(updatedScheduledTweets);
-          fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content);
+          await database.deleteOne({ body: body, date: date })
+          console.log('Scheduled tweet deleted from database')
         })
         .catch((error) => {
           console.log('error sending tweet', error)
@@ -42,7 +30,7 @@ function postScheduledTweetWithoutMedia(body, date, twitterClient, file){
       }, millisecondsUntil(date));
 }
 
-function postScheduledTweetWithMedia (body, image, date, twitterClient, file) {
+function postScheduledTweetWithMedia (body, image, date, twitterClient, database) {
     setTimeout(async () => {
       const imageData = Buffer.from(image, 'base64');
       const fileName = `image_${Date.now()}.png`;
@@ -66,25 +54,15 @@ function postScheduledTweetWithMedia (body, image, date, twitterClient, file) {
 
       try {
       const tweet = await simulatePostTweet(); 
-      console.log('Tweet created:', tweet);
-      let updatedScheduledTweets = filterOldTweets(file);
-      let content = JSON.stringify(updatedScheduledTweets);
-      fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content);
+      console.log('Scheduled tweet posted:', tweet);
+      await database.deleteOne({ body: body, image: image, date: date })
+      console.log('Scheduled tweet deleted from database')
       } catch (error) {
       console.error('Error creating tweet:', error);
       }
     }, millisecondsUntil(date));
 }
 
-function loadSchedulingFile() {
-  let fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt');
-  let file = [];
-  if(fileExists){
-    let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8');
-    file = JSON.parse(data);
-  }
-}
-
-export default {millisecondsUntil, postScheduledTweetWithoutMedia, filterOldTweets, postScheduledTweetWithMedia, loadSchedulingFile};
+export default {millisecondsUntil, postScheduledTweetWithoutMedia, postScheduledTweetWithMedia};
 
 

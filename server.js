@@ -1,6 +1,6 @@
 import express from 'express'
-import path, { parse } from 'path'
-import twit from 'twit'
+import path from 'path'
+// import twit from 'twit' // No longer needed as Twitter API v1.1 is deprecated
 import bodyParser from 'body-parser'
 import fs from 'fs'
 import twitter from './twitter.js'
@@ -9,6 +9,8 @@ import { TwitterApi } from 'twitter-api-v2'
 import open from 'open'
 import session from 'express-session'
 import mockTweets from './static/mock-tweets.js'
+import mongoose from 'mongoose'
+import ScheduledTweet from './database/tweetSchema.js'
 
 const app = express()
 const filename = fileURLToPath(import.meta.url)
@@ -19,51 +21,69 @@ app.use(bodyParser.urlencoded({ limit: '25mb', extended: true }))
 app.use(express.static(path.join(__dirname, "static")))
 app.use(express.json({limit: '25mb'}))
 app.use(session({
-  secret: 'weijfw832We93ijwed', // random generated secret key
+  secret: 'weijfw832We93ijwed', // Random generated secret key
   resave: false,
   saveUninitialized: true
 }))
 
-// start server & listen on port 3000
-app.listen(3000, function () {
-  console.log('Node listening on port 3000')
-  if(fs.existsSync(__dirname +'/tmp/scheduling.txt')) {
-    let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8')
-    const file = JSON.parse(data)
+async function connectToMongoDb() {
+  mongoose.connect('mongodb+srv://tweebook:tweebookbot@tweebook.kzqacuw.mongodb.net/?retryWrites=true&w=majority',{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    })
+  .then(() => {
+    console.log('Connected to MongoDB')
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB', error)
+  })
+}
 
-    file.forEach(element => {
+// Start server & listen on port 3000
+app.listen(3000, async function () {
+  console.log('Node listening on port 3000')
+  connectToMongoDb()
+})
+
+// Get existing scheduled tweets in database and display on homepage
+app.get('/', async function (req, res) {
+
+  await ScheduledTweet.find({})
+  .then((data) => {
+    data.forEach(element => {
       if(element.image){
-        twitter.postScheduledTweetWithMedia(element.body, element.image, element.date, authClient, file)
+        twitter.postScheduledTweetWithMedia(element.body, element.image, element.date, authClient, ScheduledTweet)
       } else {
-        twitter.postScheduledTweetWithoutMedia(element.body, element.date, authClient, file)
+        twitter.postScheduledTweetWithoutMedia(element.body, element.date, authClient, ScheduledTweet)
       }
     })
-  }
-})
-
-// listen for get request for hashtag and twitter data
-app.get('/', function (req, res) {
-
-  let fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt')
-  let file = []
-  if(fileExists){
-    let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8')
-    file = JSON.parse(data)
-  }
-
-  res.render('index',  {
-    hashtag: null, 
-    twitterData: null, 
-    tweetbox: null,
-    scheduledTweets: file
+    return data
   })
+  .then((updatedData) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(ScheduledTweet.find({}))
+      }, 5000) // Timer needed to give database enough time to process and delete the data from above's function
+    })
+  })
+  .then((latestData) => {
+    res.render('index',  {
+      hashtag: null, 
+      twitterData: null, 
+      tweetbox: null,
+      scheduledTweets: latestData
+    })
+  })
+  .catch((error) => {
+    console.error('Error getting existing scheduled tweets', error)
+  })
+
 })
 
-// listen for get request on root url --> http://localhost:3000
+// Listen for get request on root url --> http://localhost:3000
 app.set('view engine', 'ejs')
 
-// twitter API 2.0 authorisation
-
+// Twitter API 2.0 authorisation
 let TwitterAuth = new TwitterApi({
   appKey: 'PSNm4qM4IHnoi9S8X0NHnOXr2',
   appSecret: 'ZRppRjZAeZboyllYDKMVk5hOWmUaBjkuKyjAQtHZ4LtkrOWilr',
@@ -81,7 +101,7 @@ const oauth_token_secret = authLink.oauth_token_secret
 
 app.get('/callback', async (req, res) => {
   const { oauth_token, oauth_verifier } = req.query
-  req.session.oauth_token_secret = oauth_token_secret  // get the saved oauth_token_secret from session
+  req.session.oauth_token_secret = oauth_token_secret  // Get the saved oauth_token_secret from session
 
   if (!oauth_token || !oauth_verifier || !oauth_token_secret) {
     return res.status(400).send('You denied the app or your session expired!')
@@ -104,34 +124,30 @@ app.get('/callback', async (req, res) => {
     .catch(() => res.status(403).send('Invalid verifier or access tokens!'))
 })
   
-// retrieve and display hashtag search results and scheduled tweets
+// Retrieve and display hashtag search results and scheduled tweets
 app.post('/', async function (req, res) {
 
-  let fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt')
-  let file = []
-  if(fileExists){
-    let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8')
-    file = JSON.parse(data)
-  }
-
   if (req.body.hashtag !== null) {    
-    // simulate twitter API call with mock data
+    // Simulate twitter API call with mock data
     const simulateTweetSearch = async () => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(mockTweets)
-        }, 1000) // simulate 1 sec delay
+        }, 1000) // Simulate 1 sec delay
       })
     }
     
     try {
       const searchResults = await simulateTweetSearch() 
       console.log('Search results:', searchResults)
+      await ScheduledTweet.find({})
+      .then((data) => {
       res.render('index', {
         hashtag: req.body.hashtag, 
         twitterData: searchResults,
-        scheduledTweets: file,
+        scheduledTweets: data,
         error: null
+      })
     })
     } catch (error) {
       console.error('Error searching tweets:', error)
@@ -140,7 +156,7 @@ app.post('/', async function (req, res) {
   }
 })
 
-// post tweets
+// Post tweets
 app.post('/postTweet', async function (req, res) {
 
   if(req.body.image){
@@ -186,38 +202,31 @@ app.post('/postTweet', async function (req, res) {
 })
 
 
-// schedule tweets
-app.post('/scheduleTweet', function (req, res) {
+// Schedule tweets
+app.post('/scheduleTweet', async function (req, res) {
 
-  let tweet = req.body
-  let fileExists = fs.existsSync(__dirname +'/tmp/scheduling.txt')
-  let file = []
-  if(fileExists){
-    try {
-      let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8')
-      file = JSON.parse(data)
-    } catch (err) {
-      console.log('Error parsing', err)
-    }
-  }
-
-  for (let element of file){
-    if(element.body === tweet.body && element.date === tweet.date){
-      console.log("repeated tweet")
-      res.send("error")
-      return false
-    }
-  }
-  
+  let tweet = req.body  
   try {
-    file.push(tweet)
-    let content = JSON.stringify(file)
-    fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content)
+    const scheduledTweet = new ScheduledTweet({
+      body: tweet.body,
+      date: tweet.date,
+      image: tweet.image
+    })
+
+    const existingScheduledTweets = await ScheduledTweet.find({})
+    for (let element of existingScheduledTweets){
+      if(element.body === tweet.body && element.date === tweet.date){
+        console.log("repeated tweet");
+        res.send("error");
+        return false;
+      }
+    }
+    await scheduledTweet.save()
 
     if(tweet.image) {
-      twitter.postScheduledTweetWithMedia(tweet.body, tweet.image, tweet.date, authClient, file)
+      twitter.postScheduledTweetWithMedia(tweet.body, tweet.image, tweet.date, authClient, ScheduledTweet)
     } else {
-      twitter.postScheduledTweetWithoutMedia(tweet.body, tweet.date, authClient, file)
+      twitter.postScheduledTweetWithoutMedia(tweet.body, tweet.date, authClient, ScheduledTweet)
     }
     res.send("success")
   } catch (err) {
@@ -226,7 +235,7 @@ app.post('/scheduleTweet', function (req, res) {
   }
 })
 
-// retweet tweet to profile when clicked 
+// Retweet tweet to profile when clicked 
 app.get('/retweet', async function (req, res) {
   const simulateRetweet = async () => {
     return new Promise((resolve, reject) => {
@@ -246,7 +255,7 @@ app.get('/retweet', async function (req, res) {
   }
 })
 
-// undo retweet 
+// Undo retweet 
 app.get('/undoRetweet', async function (req, res) {
   const simulateUndoRetweet = async () => {
     return new Promise((resolve, reject) => {
@@ -266,7 +275,7 @@ app.get('/undoRetweet', async function (req, res) {
   }
 })
 
-// favorite tweet on profile when clicked 
+// Favorite tweet on profile when clicked 
 app.get('/favtweet', async function (req, res) {
   const simulateFavoriteTweet = async () => {
     return new Promise((resolve, reject) => {
@@ -286,7 +295,7 @@ app.get('/favtweet', async function (req, res) {
   }
 })
 
-// undo favorite tweet 
+// Undo favorite tweet 
 app.get('/undoFavTweet', async function (req, res) {
   const simulateUndoFavoriteTweet = async () => {
     return new Promise((resolve, reject) => {
@@ -307,19 +316,16 @@ app.get('/undoFavTweet', async function (req, res) {
 })
 
 
-// delete scheduled tweet
-app.post('/deleteScheduledTweet', function (req, res) {
-  let data = fs.readFileSync(__dirname +'/tmp/scheduling.txt', 'utf-8')
-  const file = JSON.parse(data)
+// Delete scheduled tweet
+app.post('/deleteScheduledTweet', async function (req, res) {
   let tweetToDelete = req.body
-
-  let updatedScheduledTweets = []
-    for(let i=0; i < file.length; i++) {
-        if(file[i].body !== tweetToDelete.body || file[i].date !== tweetToDelete.date) {
-            updatedScheduledTweets.push(file[i])
-        }   
+  const body = tweetToDelete.body
+  try {
+    const result = await ScheduledTweet.deleteOne({ body: body, date: tweetToDelete.date })
+    console.log(result)
+    res.send('success')
+  } catch (error) {
+    console.error(error)
+    res.send('error')
   }
-
-  let content = JSON.stringify(updatedScheduledTweets)
-  fs.writeFileSync(__dirname +'/tmp/scheduling.txt', content)
 })
