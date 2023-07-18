@@ -46,9 +46,9 @@ app.listen(3000, async function () {
 })
 
 // Get existing scheduled tweets in database and display on homepage
-app.get('/', async function (req, res) {
+app.get('/', function (req, res) {
 
-  await ScheduledTweet.find({})
+  ScheduledTweet.find({})
   .then((data) => {
     data.forEach(element => {
       if(element.image){

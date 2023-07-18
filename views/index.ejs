@@ -1,310 +1,311 @@
 <!DOCTYPE html>
+
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<%- include('style'); %>
+  <%- include('style'); %>
 
-	<!-- Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-	<!-- Bootstrap button -->
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --> <!-- interfer with toast -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <!-- Bootstrap button -->
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+  <!-- interfer with toast -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
-	<!-- Bootstrap JS Bundle with Popper -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
-	<!-- jQuery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
-	<!-- FontAwesome -->
-	<script src="https://kit.fontawesome.com/9b931ba7cb.js" crossorigin="anonymous"></script>
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-	<!-- flatpickr -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-	<link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css" type="text/css">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-	<!-- flatpickr plugin -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/themes/material_green.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/shortcut-buttons-flatpickr.min.js"></script>
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/9b931ba7cb.js" crossorigin="anonymous"></script>
 
-	<!-- datatables -->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-	<script>
-			let bookTable = null;
-			$(document).ready( function () {
-					bookTable = $('#bookApiTable').DataTable({           
-							scrollY: 150,
-							pageLength: 5,
-							lengthMenu: [5, 10, 15, 25, 50, 100]                
-					});
-			});
-	</script>
+  <!-- flatpickr -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css" type="text/css">
 
-	<!-- HTML to canvas cdn -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- flatpickr plugin -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/themes/material_green.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/shortcut-buttons-flatpickr.min.js"></script>
 
-	<!-- browser side javascript -->
-	<script src ="/client.js"></script>
-	<script src ="/notification.js"></script>
-	<script src ="/tweet-draft.js"></script>
-	<script src ="/preview-colors.js"></script>
+  <!-- datatables -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+  <script>
+    let bookTable = null;
+    $(document).ready(function() {
+      bookTable = $('#bookApiTable').DataTable({
+        scrollY: 150,
+        pageLength: 5,
+        lengthMenu: [5, 10, 15, 25, 50, 100]
+      });
+    });
+  </script>
 
-	<title>TweeBook</title>
+  <!-- HTML to canvas cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- browser side javascript -->
+  <script src="/client.js"></script>
+  <script src="/notification.js"></script>
+  <script src="/tweet-draft.js"></script>
+  <script src="/preview-colors.js"></script>
+
+  <title>TweeBook</title>
 
 </head>
 
 <body>
-<h1 id="h1">TweeBook</h1>
+  <h1 id="h1">TweeBook</h1>
 
-<!-- book api selection -->
-<form id="bookapi"> 
-	<div class="form-group">
-			<label>Links to books</label>
-			<select multiple class="form-control links-to-books">
-					<option value="https://openlibrary.org/search.json?person_facet=Gandalf&has_fulltext=true&sort=new&mode=ebooks&q=subject%3AIn+library" onclick="loadIntoTable(this.value)">Gandalf</option>
-					<option value="https://openlibrary.org/search.json?has_fulltext=true&mode=ebooks&q=subject%3AIn+library&person_facet=Winnie-the-Pooh" onclick="loadIntoTable(this.value)">Winnie The Pooh</option>
-					<option value="https://openlibrary.org/search.json?q=subject%3AFiction&mode=ebooks&has_fulltext=true" onclick="loadIntoTable(this.value)">Fiction</option>
-					<option value="https://openlibrary.org/search.json?language=eng&has_fulltext=true&subject=Fantasy&subject_facet=Fantasy" onclick="loadIntoTable(this.value)">Fantasy</option>
-					<option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Romance&subject_facet=Romance" onclick="loadIntoTable(this.value)">Romance</option>
-					<option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Thriller&subject_facet=Thriller" onclick="loadIntoTable(this.value)">Thriller</option>
-			</select>
-	</div>
-</form>
+  <!-- book api selection -->
+  <form id="bookapi">
+    <div class="form-group">
+      <label>Links to books</label>
+      <select multiple class="form-control links-to-books">
+        <option value="https://openlibrary.org/search.json?person_facet=Gandalf&has_fulltext=true&sort=new&mode=ebooks&q=subject%3AIn+library" onclick="loadIntoTable(this.value)">Gandalf</option>
+        <option value="https://openlibrary.org/search.json?has_fulltext=true&mode=ebooks&q=subject%3AIn+library&person_facet=Winnie-the-Pooh" onclick="loadIntoTable(this.value)">Winnie The Pooh</option>
+        <option value="https://openlibrary.org/search.json?q=subject%3AFiction&mode=ebooks&has_fulltext=true" onclick="loadIntoTable(this.value)">Fiction</option>
+        <option value="https://openlibrary.org/search.json?language=eng&has_fulltext=true&subject=Fantasy&subject_facet=Fantasy" onclick="loadIntoTable(this.value)">Fantasy</option>
+        <option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Romance&subject_facet=Romance" onclick="loadIntoTable(this.value)">Romance</option>
+        <option value="https://openlibrary.org/search.json?has_fulltext=true&subject=Thriller&subject_facet=Thriller" onclick="loadIntoTable(this.value)">Thriller</option>
+      </select>
+    </div>
+  </form>
 
-<div class="container" style="width: 80%; display: none" id="book-api-div">
-<span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
-	<table id="bookApiTable" class="cell-border compact stripe">
-			<thead>
-					<tr>
-							<th>Title</th>
-							<th>Author</th>
-							<th>First publish year</th>
-							<th>Abstract</th>
-					</tr>
-			</thead>
-			<tbody id="api-body"></tbody>
-	</table>
-</div>
+  <div class="container" style="width: 80%; display: none" id="book-api-div">
+    <span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
+    <table id="bookApiTable" class="cell-border compact stripe">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>First publish year</th>
+          <th>Abstract</th>
+        </tr>
+      </thead>
+      <tbody id="api-body"></tbody>
+    </table>
+  </div>
 
-<div class="container" style="display: none" id="image-div">
-	<p class="close" onclick="closeDiv(this)" style="cursor:pointer; text-align:right; margin-right: 65px">x</p>
-	<div class="row">
-			<div class="col" id="colorPicker">  
-					<span>Select background colour: </span><br><input type="color" id="background-colorpicker" value="#1da1f2" onclick="changeBackgroundColor()"><br>
-					<span>Select text colour: </span><br><input type="color" id="text-colorpicker" value="#ffffff" onclick="changeTextColor()"><br>
-			</div>
-			<div class="col" id="previewImageDiv">
-					<h5>Preview Image</h5>
-					<div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div><br>
-			</div> 
-	</div> 
-</div> 
-<!-- book api selection -->
+  <div class="container" style="display: none" id="image-div">
+    <p class="close" onclick="closeDiv(this)" style="cursor:pointer; text-align:right; margin-right: 65px">x</p>
+    <div class="row">
+      <div class="col" id="colorPicker">
+        <span>Select background colour: </span><br><input type="color" id="background-colorpicker" value="#1da1f2" onclick="changeBackgroundColor()"><br>
+        <span>Select text colour: </span><br><input type="color" id="text-colorpicker" value="#ffffff" onclick="changeTextColor()"><br>
+      </div>
+      <div class="col" id="previewImageDiv">
+        <h5>Preview Image</h5>
+        <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div><br>
+      </div>
+    </div>
+  </div>
+  <!-- book api selection -->
 
-<!-- left column -->
-<div class="container">
-	<div class="row">
-			<div class="col" id="left">
-					<h2>New Tweet</h2>
+  <!-- left column -->
+  <div class="container">
+    <div class="row">
+      <div class="col" id="left">
+        <h2>New Tweet</h2>
 
-					<textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
-					<div id="remaining-chars">280 characters remaining</div>
-					
-					<script>
-															
-							let textArea = document.getElementById("tweet-area");
-							let remainingChars = document.getElementById("remaining-chars");
-							let maxChars = 280;
+        <textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
+        <div id="remaining-chars">280 characters remaining</div>
 
-							textArea.addEventListener("input", countChar);
-							
-							function countChar() {
-									let remaining = maxChars - textArea.value.length;
-									let remainingColour = remaining < 20 ? "red" : "black";
-									remainingChars.textContent = `${remaining} characters remaining`;
-									remainingChars.style.color = remainingColour;
-							}
-					
-					</script>
+        <script>
+          let textArea = document.getElementById("tweet-area");
+          let remainingChars = document.getElementById("remaining-chars");
+          let maxChars = 280;
 
-					<div>
-							<input type="checkbox" name="previewImage" id="previewImage">
-							<label for="previewImage">Include preview image</label>
-					</div>
+          textArea.addEventListener("input", countChar);
 
-					<button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
-					<button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>          
+          function countChar() {
+            let remaining = maxChars - textArea.value.length;
+            let remainingColour = remaining < 20 ? "red" : "black";
+            remainingChars.textContent = `${remaining} characters remaining`;
+            remainingChars.style.color = remainingColour;
+          }
+        </script>
 
-					<form class="flatpickr"> 
-							<div class="col col-lg-5">
-									<input type="text" id="calendar" placeholder="Schedule date/time" readonly="readonly">
-							</div>
-					</form>
+        <div>
+          <input type="checkbox" name="previewImage" id="previewImage">
+          <label for="previewImage">Include preview image</label>
+        </div>
 
-					<tbody>
-					<div class="col col-lg-12" id="left-content">
-							<div id="scheduledTweets">
-							
-									<h5>All scheduled tweets</h5>
-									<script>
+        <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
+        <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
 
-											let scheduledTweets = <%- JSON.stringify(scheduledTweets) %>;
+        <form class="flatpickr">
+          <div class="col col-lg-5">
+            <input type="text" id="calendar" placeholder="Schedule date/time" readonly="readonly">
+          </div>
+        </form>
 
-											scheduledTweets.sort(function(scheduledTweets, nextScheduledTweet){
-													return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
-											})
+        <tbody>
+          <div class="col col-lg-12" id="left-content">
+            <div id="scheduledTweets">
 
-											let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
-											for (let index = 0; index < scheduledTweets.length; index++) {
+              <h5>All scheduled tweets</h5>
+              <script>
+                let scheduledTweets = <%- JSON.stringify(scheduledTweets) %>;
 
-													if(scheduledTweets[index].image){
-																scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
-																	'<div class="card-body">' +
-																	'<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
-																	'<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
-																	'<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/ style="width: 400px" >' + '</div>' +
-																	'<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
-																	'</div>' +
-																	'</div>' +
-																	'</div>';
-													} else {
-															scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
-																	'<div class="card-body">' +
-																	'<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
-																	'<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
-																	'<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> '+ 
-																	'</div>' +
-																	'</div>' +
-																	'</div>';
-													}
-											}
-											scheduledTweetHTML += '</div>';
-							
-											var tweetsContainer = document.getElementById('scheduledTweets');
-											tweetsContainer.insertAdjacentHTML('beforeend', scheduledTweetHTML); 
+                scheduledTweets.sort(function(scheduledTweets, nextScheduledTweet) {
+                  return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
+                })
 
-									</script> 
-							</div>
-					</div>
-				</tbody>
-			</div>
-<!-- left column -->
+                let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
+                for (let index = 0; index < scheduledTweets.length; index++) {
 
-<!-- right column -->
-			<div class="col" id="right">
-					<table class="responsive-table table">
-					<thead>
-							<h2>Hashtag Search</h2>
-							<div class="main-search-input-wrap">
-									<div class="main-search-input fl-wrap">
-											<form method="post">
-											<div class="main-search-input-item"> 
-											<fieldset>
-													<div class="input-group">
-													<input class="form-control" name="hashtag" placeholder="Search a popular term or #hashtag" required type="text">
-													</div>
-											</fieldset>
-											</div> 
-													<button class="main-search-button" input type="submit">Search</button>
-											</form>
-									</div>
-							</div>
-					</thead>
+                  if (scheduledTweets[index].image) {
+                    scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                      '<div class="card-body">' +
+                      '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                      '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                      '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/ style="width: 400px" >' + '</div>' +
+                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>';
+                  } else {
+                    scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                      '<div class="card-body">' +
+                      '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                      '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>';
+                  }
+                }
+                scheduledTweetHTML += '</div>';
 
-					<tbody>
-							<div class="col col-lg-12" id="right-content">
-									<div>
-											<% if(hashtag !== null){ %>
-													<h3>All popular tweets for: <%- hashtag %></h3>
-													<% } %>
-									</div>
-							
-							<div id="tweets">
-							
-									<% if(twitterData !== null){ %>
-											
-									<script>
+                var tweetsContainer = document.getElementById('scheduledTweets');
+                tweetsContainer.insertAdjacentHTML('beforeend', scheduledTweetHTML);
+              </script>
+            </div>
+          </div>
+        </tbody>
+      </div>
+      <!-- left column -->
 
-											let twitterData = <%- JSON.stringify(twitterData) %>;
-											let tweetHTML = '<div class="row">';
-											for (let index = 0; index < twitterData.statuses.length; index++) {
-													var createdDateTime = new Date(twitterData.statuses[index].created_at).toUTCString();
-			
-													tweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
-															'<div class="card-body">' +
-															'<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
-															'<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
-															'<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
-															'<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="retweetCount">' + twitterData.statuses[index].retweet_count + '</span>' + '</span>' +
-															'<span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="favCount">' + twitterData.statuses[index].favorite_count + '</span>' + '</span>' + '</p>' +
-															'<p class="card-text"><small class="text-muted">Created on '+createdDateTime.toString()+' </small></p>' +
-															'<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">'+twitterData.statuses[index].id_str+'</span></small></p>' +
-															'</div>' +
-															'</div>' +
-															'</div>';
-											}
-											tweetHTML += '</div>';
-							
-											var tweetsContainer = document.getElementById('tweets');
-											tweetsContainer.insertAdjacentHTML('beforeend', tweetHTML);
+      <!-- right column -->
+      <div class="col" id="right">
+        <table class="responsive-table table">
+          <thead>
+            <h2>Hashtag Search</h2>
+            <div class="main-search-input-wrap">
+              <div class="main-search-input fl-wrap">
+                <form method="post">
+                  <div class="main-search-input-item">
+                    <fieldset>
+                      <div class="input-group">
+                        <input class="form-control" name="hashtag" placeholder="Search a popular term or #hashtag" required type="text">
+                      </div>
+                    </fieldset>
+                  </div>
+                  <button class="main-search-button" input type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </thead>
 
-									</script>
-									<% } %>
-									</div>
-							</div>
-					</tbody>
-					</table>
-			</div>    
-	</div>
-</div>
-<!-- right column -->
+          <tbody>
+            <div class="col col-lg-12" id="right-content">
+              <div>
+                <% if(hashtag !== null){ %>
+                <h3>All popular tweets for: <%- hashtag %></h3>
+                <% } %>
+              </div>
 
-<!-- flatpickr scheduling -->
-<script>
+              <div id="tweets">
 
-flatpickr("#calendar", {
-    allowInput: true,
-    enableTime: true,
-    dateFormat: "Y-m-d H:i",
-    altInput: true,
-    altFormat: "F j, Y (h:i K)",
-    minDate: "today",
-    plugins: [
+                <% if(twitterData !== null){ %>
+
+                <script>
+                  let twitterData = <%- JSON.stringify(twitterData) %>;
+                  let tweetHTML = '<div class="row">';
+                  for (let index = 0; index < twitterData.statuses.length; index++) {
+                    var createdDateTime = new Date(twitterData.statuses[index].created_at).toUTCString();
+
+                    tweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                      '<div class="card-body">' +
+                      '<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
+                      '<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
+                      '<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
+                      '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="retweetCount">' + twitterData.statuses[index].retweet_count + '</span>' + '</span>' +
+                      '<span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="favCount">' + twitterData.statuses[index].favorite_count + '</span>' + '</span>' + '</p>' +
+                      '<p class="card-text"><small class="text-muted">Created on ' + createdDateTime.toString() + ' </small></p>' +
+                      '<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">' + twitterData.statuses[index].id_str + '</span></small></p>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>';
+                  }
+                  tweetHTML += '</div>';
+
+                  var tweetsContainer = document.getElementById('tweets');
+                  tweetsContainer.insertAdjacentHTML('beforeend', tweetHTML);
+                </script>
+                <% } %>
+              </div>
+            </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- right column -->
+
+  <!-- flatpickr scheduling -->
+  <script>
+    flatpickr("#calendar", {
+      allowInput: true,
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      altInput: true,
+      altFormat: "F j, Y (h:i K)",
+      minDate: "today",
+      plugins: [
         ShortcutButtonsPlugin({
-        theme: 'material-green',
-        button: [
-            {label: "Clear"},
-            {label: "Today"},
-            {label: "Tomorrow"},
-        ],
-        onClick: (index, fp) => {
+          theme: 'material-green',
+          button: [{
+              label: "Clear"
+            },
+            {
+              label: "Today"
+            },
+            {
+              label: "Tomorrow"
+            },
+          ],
+          onClick: (index, fp) => {
             let date;
             switch (index) {
-            case 0:
+              case 0:
                 fp.clear();
                 fp.close();
                 break;
-            case 1:
+              case 1:
                 date = new Date();
                 break;
-            case 2:
+              case 2:
                 date = new Date(Date.now() + 24 * 60 * 60 * 1000);
                 break;
             }
             fp.setDate(date);
-        }
+          }
         })
-    ]
-    }); 
-</script>
+      ]
+    });
+  </script>
 
 </body>
+
 </html>
