@@ -10,7 +10,7 @@ import open from 'open'
 import session from 'express-session'
 import mockTweets from './static/mock-tweets.js'
 import mongoose from 'mongoose'
-import ScheduledTweet from './database/tweetSchema.js'
+import ScheduledTweet from './database/tweet-schema.js'
 
 const app = express()
 const filename = fileURLToPath(import.meta.url)
