@@ -1,10 +1,8 @@
 function tweetSuccess() {
-  const toastShow = document.getElementById('tweetSuccess')
   showNotification('Success! ', 'Your tweet was posted successfully.')
 }
 
 function tweetFail() {
-  const toastShow = document.getElementById('tweetFail')
   showNotification(
     'Error! ',
     'There was an issue posting your tweet. Please try again.',
@@ -14,12 +12,10 @@ function tweetFail() {
 }
 
 function scheduleTweetSuccess() {
-  const toastShow = document.getElementById('scheduleSuccess')
   showNotification('Success! ', 'Your tweet was scheduled successfully.')
 }
 
 function scheduleTweetFail() {
-  const toastShow = document.getElementById('scheduleFail')
   showNotification(
     'Error! ',
     'There was an issue scheduling your tweet. Please try again.',
@@ -28,8 +24,52 @@ function scheduleTweetFail() {
   )
 }
 
+function scheduleRepeatedTweetFail() {
+  showNotification(
+    'Error! ',
+    'Repeated tweets are not allowed.',
+    '#fadcdc',
+    '#bb0e10'
+  )
+}
+
+function retweetFail() {
+  showNotification(
+    'Error! ',
+    'There was an issue retweeting your tweet. Please try again.',
+    '#fadcdc',
+    '#bb0e10'
+  )
+}
+
+function undoRetweetFail() {
+  showNotification(
+    'Error! ',
+    'There was an issue to undo your retweet. Please try again.',
+    '#fadcdc',
+    '#bb0e10'
+  )
+}
+
+function favoriteFail() {
+  showNotification(
+    'Error! ',
+    'There was an issue favoriting your tweet. Please try again.',
+    '#fadcdc',
+    '#bb0e10'
+  )
+}
+
+function undoFavoriteFail() {
+  showNotification(
+    'Error! ',
+    'There was an issue to undo favoriting your tweet. Please try again.',
+    '#fadcdc',
+    '#bb0e10'
+  )
+}
+
 function deleteTweetSuccess() {
-  const toastShow = document.getElementById('deleteSuccess')
   showNotification(
     'Success! ',
     'Your tweet was deleted from the database successfully.'
@@ -37,7 +77,6 @@ function deleteTweetSuccess() {
 }
 
 function deleteTweetFail() {
-  const toastShow = document.getElementById('deleteFail')
   showNotification(
     'Error! ',
     'There was an issue deleting your tweet from the database.',
@@ -55,8 +94,7 @@ function showNotification(
 ) {
   //set default values
   duration = typeof duration !== 'undefined' ? duration : 3000
-  backgroundColour =
-    typeof backgroundColour !== 'undefined' ? backgroundColour : '#dff0d8'
+  backgroundColour = typeof backgroundColour !== 'undefined' ? backgroundColour : '#dff0d8'
   textColour = typeof textColour !== 'undefined' ? textColour : '#3c763d'
   height = 40
 

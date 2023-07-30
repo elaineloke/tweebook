@@ -139,7 +139,6 @@ app.post('/', async function (req, res) {
     
     try {
       const searchResults = await simulateTweetSearch() 
-      console.log('Search results:', searchResults)
       await ScheduledTweet.find({})
       .then((data) => {
       res.render('index', {
@@ -217,7 +216,7 @@ app.post('/scheduleTweet', async function (req, res) {
     for (let element of existingScheduledTweets){
       if(element.body === tweet.body && element.date === tweet.date){
         console.log("repeated tweet");
-        res.send("error");
+        res.send("repeated");
         return false;
       }
     }
@@ -248,10 +247,10 @@ app.get('/retweet', async function (req, res) {
   try {
     const tweet = await simulateRetweet() 
     console.log('Retweeted')
-    res.send(req.query.id)
+    res.send({id: req.query.id, result: 'success'})
   } catch (error) {
     console.error('Error retweeting', error)
-    res.send("error")
+    res.send({result: 'error'})
   }
 })
 
@@ -268,10 +267,10 @@ app.get('/undoRetweet', async function (req, res) {
   try {
     const tweet = await simulateUndoRetweet() 
     console.log('Undo Retweet')
-    res.send(req.query.id)
+    res.send({id: req.query.id, result: 'success'})
   } catch (error) {
     console.error('Error undo retweet', error)
-    res.send("error")
+    res.send({result: 'error'})
   }
 })
 
@@ -288,10 +287,10 @@ app.get('/favtweet', async function (req, res) {
   try {
     const tweet = await simulateFavoriteTweet() 
     console.log('Tweet favorited')
-    res.send(req.query.id)
+    res.send({id: req.query.id, result: 'success'})
   } catch (error) {
     console.error('Error favoriting tweet', error)
-    res.send("error")
+    res.send({result: 'error'})
   }
 })
 
@@ -308,10 +307,10 @@ app.get('/undoFavTweet', async function (req, res) {
   try {
     const tweet = await simulateUndoFavoriteTweet() 
     console.log('Tweet un-favorited')
-    res.send(req.query.id)
+    res.send({id: req.query.id, result: 'success'})
   } catch (error) {
     console.error('Error undo favoriting tweet', error)
-    res.send("error")
+    res.send({result: 'error'})
   }
 })
 

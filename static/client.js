@@ -13,21 +13,24 @@ function retweetTweet(btn) {
     fetch('/retweet?id=' + tweetId)
       .then((response) => response.text())
       .then((text) => {
-        retweetId = text
+        retweetId = text.id
+        if (text.result = 'success') {
+          $('#tweets').find(btn).css('color', 'green')
+        } else {
+          retweetFail()
+        }
       })
-
-    $('#tweets').click(function () {
-      $(this).find(btn).css('color', 'green')
-    })
   }
   if (retweetCount % 2 == 0) {
     fetch('/undoRetweet?id=' + retweetId)
       .then((response) => response.text())
-      .then((text) => console.log(text))
-
-    $('#tweets').click(function () {
-      $(this).find(btn).css('color', 'black')
-    })
+      .then((text) => {
+        if (text.result = 'success') {
+          $('#tweets').find(btn).css('color', 'black')
+        } else {
+          undoRetweetFail()
+        }
+      })
   }
 }
 
@@ -46,22 +49,25 @@ function favTweet(btn) {
     fetch('/favtweet?id=' + tweetId)
       .then((response) => response.text())
       .then((text) => {
-        favTweetId = text
+        favTweetId = text.id
+        if (text.result = 'success') {
+          $('#tweets').find(btn).css('color', 'red')
+        } else {
+          favoriteFail()
+        }
       })
-
-    $('#tweets').click(function () {
-      $(this).find(btn).css('color', 'red')
-    })
   }
   if (favCount % 2 == 0) {
-    console.log(favTweetId)
     fetch('/undoFavTweet?id=' + favTweetId)
       .then((response) => response.text())
-      .then((text) => console.log(text))
-
-    $('#tweets').click(function () {
-      $(this).find(btn).css('color', 'black')
-    })
+      .then((text) => {
+        favTweetId = text.id
+        if (text.result = 'success') {
+          $('#tweets').find(btn).css('color', 'black')
+        } else {
+          undoFavoriteFail()
+        }
+      })
   }
 }
 
@@ -101,7 +107,6 @@ async function postTweet(event) {
 async function scheduleTweet(event) {
   let tweet = textArea.value
   let data = { text: tweet }
-  console.log(tweet)
 
   let calendar = document.querySelector('#calendar')
   let calendarVal = calendar.value
@@ -117,7 +122,6 @@ async function scheduleTweet(event) {
   }
 
   if (tweet == '' || calendarVal == '') {
-    console.log('error')
     return 'error'
   } else {
     fetch('/scheduleTweet', {
@@ -129,13 +133,15 @@ async function scheduleTweet(event) {
     })
       .then((response) => response.text())
       .then((text) => {
-        console.log(text)
         if (text == 'success') {
           scheduleTweetSuccess()
           displayNewlyScheduledTweet(scheduledTweet)
         }
         if (text == 'error') {
           scheduleTweetFail()
+        }
+        if (text == 'repeated') {
+          scheduleRepeatedTweetFail()
         }
       })
 
@@ -152,7 +158,6 @@ function deleteScheduledTweet(btn) {
   let cardBodyB = btn.parentNode.parentNode
   let spanWithIdB = cardBodyB.querySelector('.scheduledBody')
   let scheduledBody = spanWithIdB.textContent
-  console.log(scheduledBody)
 
   fetch('/deleteScheduledTweet', {
     method: 'POST',
@@ -163,7 +168,6 @@ function deleteScheduledTweet(btn) {
   })
     .then((response) => response.text())
     .then((text) => {
-      console.log(text)
       if (text == 'success') {
         deleteTweetSuccess()
       } else {
