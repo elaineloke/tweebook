@@ -42,7 +42,7 @@
   <script>
     let bookTable = null;
     $(document).ready(function() {
-      bookTable = $('#bookApiTable').DataTable({
+      bookTable = $('#book-api-table').DataTable({
         scrollY: 150,
         pageLength: 5,
         lengthMenu: [5, 10, 15, 25, 50, 100]
@@ -67,9 +67,9 @@
   <h1 id="h1">TweeBook</h1>
 
   <!-- book api selection -->
-  <form id="bookapi">
+  <form id="book-api">
     <div class="form-group">
-      <label>Links to books</label>
+      <label id="book-genre">Select a book genre to see available books</label>
       <select multiple class="form-control links-to-books">
         <option value="https://openlibrary.org/search.json?person_facet=Gandalf&has_fulltext=true&sort=new&mode=ebooks&q=subject%3AIn+library" onclick="loadIntoTable(this.value)">Gandalf</option>
         <option value="https://openlibrary.org/search.json?has_fulltext=true&mode=ebooks&q=subject%3AIn+library&person_facet=Winnie-the-Pooh" onclick="loadIntoTable(this.value)">Winnie The Pooh</option>
@@ -83,7 +83,7 @@
 
   <div class="container" style="width: 80%; display: none" id="book-api-div">
     <span class="close" onclick="closeDiv(this)" style="cursor: pointer">x</span>
-    <table id="bookApiTable" class="cell-border compact stripe">
+    <table id="book-api-table" class="cell-border compact stripe">
       <thead>
         <tr>
           <th>Title</th>
@@ -99,11 +99,11 @@
   <div class="container" style="display: none" id="image-div">
     <p class="close" onclick="closeDiv(this)" style="cursor:pointer; text-align:right; margin-right: 65px">x</p>
     <div class="row">
-      <div class="col" id="colorPicker">
+      <div class="col" id="color-picker">
         <span>Select background colour: </span><br><input type="color" id="background-colorpicker" value="#1da1f2" onclick="changeBackgroundColor()"><br>
         <span>Select text colour: </span><br><input type="color" id="text-colorpicker" value="#ffffff" onclick="changeTextColor()"><br>
       </div>
-      <div class="col" id="previewImageDiv">
+      <div class="col" id="preview-image-div">
         <h5>Preview Image</h5>
         <div class="form-control col-sm" id="image-template" style="height: auto; width: 400px; margin: 30px 30px 0px 30px; border-radius: 15px" contenteditable="true"></div><br>
       </div>
@@ -140,8 +140,8 @@
           <label for="previewImage">Include preview image</label>
         </div>
 
-        <button class="button" id="tweetButton" onclick="postTweet(this)">Tweet</button>
-        <button class="button" id="scheduleButton" onclick="scheduleTweet(this)">Schedule Tweet</button>
+        <button class="button" id="tweet-button" onclick="postTweet(this)">Tweet</button>
+        <button class="button" id="schedule-button" onclick="scheduleTweet(this)">Schedule Tweet</button>
 
         <form class="flatpickr">
           <div class="col col-lg-5">
@@ -170,7 +170,7 @@
                       '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
                       '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
                       '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/ style="width: 400px" >' + '</div>' +
-                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="delete-button" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
                       '</div>' +
                       '</div>' +
                       '</div>';
@@ -179,7 +179,7 @@
                       '<div class="card-body">' +
                       '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
                       '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
-                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="deleteButton" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                      '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="delete-button" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
                       '</div>' +
                       '</div>' +
                       '</div>';
@@ -240,7 +240,7 @@
                       '<h5 class="card-title">@' + twitterData.statuses[index].user.screen_name + '</h5>' +
                       '<h6 class="card-subtitle mb-2 text-muted">' + twitterData.statuses[index].user.name + '</h6>' +
                       '<p class="card-text">' + twitterData.statuses[index].text + '</p>' +
-                      '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="retweetCount">' + twitterData.statuses[index].retweet_count + '</span>' + '</span>' +
+                      '<p class="card-text"><span onclick="retweetTweet(this)" class="retweetButton"><i class="fa fa-retweet" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="retweet-count">' + twitterData.statuses[index].retweet_count + '</span>' + '</span>' +
                       '<span onclick="favTweet(this)" class="favButton"><i class="fa fa-heart" aria-hidden="true" style="cursor: pointer"></i>' + '<span class="favCount">' + twitterData.statuses[index].favorite_count + '</span>' + '</span>' + '</p>' +
                       '<p class="card-text"><small class="text-muted">Created on ' + createdDateTime.toString() + ' </small></p>' +
                       '<p class="card-text" ><small class="text-muted"><span class="tweetId" style="color:white">' + twitterData.statuses[index].id_str + '</span></small></p>' +
