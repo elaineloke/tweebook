@@ -179,41 +179,51 @@ function deleteScheduledTweet(btn) {
 
 // Populate datatables with books details
 function loadIntoTable(url) {
-  fetch(url)
-    .then((data) => {
-      return data.json()
-    })
-    .then((objectData) => {
-      bookTable.clear()
-      let imageDiv = document.getElementById('book-api-div')
-      imageDiv.style.display = 'block'
+  const loadingStatus = document.getElementById('loading-status')
+  let isLoading = false
 
-      let tableData = objectData.docs.map((book) => {
-        let arr = [
-          book.title,
-          book.author_name[0],
-          book.first_publish_year,
-          book.first_sentence ? book.first_sentence : '',
-        ]
-        arr.book = book
-        return arr
+  if (!isLoading) {
+    isLoading = true
+    loadingStatus.style.display = 'inline-block'
+
+    fetch(url)
+      .then((data) => {
+        return data.json()
       })
-
-      bookTable.rows.add(tableData).draw()
-
-      $('#api-body').on('click', 'tr', function () {
-        const tr = $(this).closest('tr')
-        const row = bookTable.row(tr)
-        const rowData = row.data()
-        if (!rowData) {
-          return
-        }
-
-        createRandomTweetDraft(rowData)
-        renderImageTemplate(rowData)
-
-        let imageDiv = document.getElementById('image-div')
+      .then((objectData) => {
+        bookTable.clear()
+        let imageDiv = document.getElementById('book-api-div')
         imageDiv.style.display = 'block'
-      })
+
+        let tableData = objectData.docs.map((book) => {
+          let arr = [
+            book.title,
+            book.author_name[0],
+            book.first_publish_year,
+            book.first_sentence ? book.first_sentence : '',
+          ]
+          arr.book = book
+          return arr
+        })
+        
+        isLoading = false
+        loadingStatus.style.display = 'none'
+        bookTable.rows.add(tableData).draw()
+
+        $('#api-body').on('click', 'tr', function () {
+          const tr = $(this).closest('tr')
+          const row = bookTable.row(tr)
+          const rowData = row.data()
+          if (!rowData) {
+            return
+          }
+
+          createRandomTweetDraft(rowData)
+          renderImageTemplate(rowData)
+
+          let imageDiv = document.getElementById('image-div')
+          imageDiv.style.display = 'block'
+        })
     })
+  }
 }

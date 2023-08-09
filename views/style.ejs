@@ -191,7 +191,7 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
-  /* start of preview image div */
+  /* Preview image div */
   #color-picker {
     padding: 20px;
     margin-left: 100px;
@@ -208,4 +208,37 @@
   }
 
   /* end of preview image div */
+
+  /* Loading status */
+  #loading-status {
+    display: none;
+    color: deepskyblue;
+  }
+
+  #loading-text {
+    margin-left: 40px;
+    font-weight: 500;
+  }
+
+  #jumping-dots span {
+    position: relative;
+    bottom: 0px;
+    animation: jump 2s infinite;
+  }
+  #jumping-dots #dot-1{
+    animation-delay: 200ms;
+  }
+  #jumping-dots #dot-2{
+    animation-delay: 400ms;
+  }
+  #jumping-dots #dot-3{
+    animation-delay: 600ms;
+  }
+
+  @keyframes jump {
+    0%   {bottom: 0px;}
+    20%  {bottom: 5px;}
+    40%  {bottom: 0px;}
+  }
+  /* end of loading status */
 </style>

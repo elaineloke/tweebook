@@ -70,6 +70,15 @@
   <form id="book-api">
     <div class="form-group">
       <label id="book-genre">Select a book genre to see available books</label>
+      <div id="loading-status">
+        <p id="loading-text">Loading
+          <span id="jumping-dots">
+            <span id="dot-1">.</span>
+            <span id="dot-2">.</span>
+            <span id="dot-3">.</span>
+          </span>
+        </p>
+      </div>
       <select multiple class="form-control links-to-books">
         <option value="https://openlibrary.org/search.json?person_facet=Gandalf&has_fulltext=true&sort=new&mode=ebooks&q=subject%3AIn+library" onclick="loadIntoTable(this.value)">Gandalf</option>
         <option value="https://openlibrary.org/search.json?has_fulltext=true&mode=ebooks&q=subject%3AIn+library&person_facet=Winnie-the-Pooh" onclick="loadIntoTable(this.value)">Winnie The Pooh</option>
