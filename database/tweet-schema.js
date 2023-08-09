@@ -4,11 +4,11 @@ const tweetSchema = new mongoose.Schema(
   {
     body: {
       type: String,
-      require: true,
+      required: true,
     },
     date: {
       type: String,
-      require: true,
+      required: true,
     },
     image: {
       type: String,

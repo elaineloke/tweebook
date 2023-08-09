@@ -73,6 +73,7 @@ function postScheduledTweetWithMedia(
 }
 
 export default {
+  convertToMilliseconds,
   millisecondsUntil,
   postScheduledTweetWithoutMedia,
   postScheduledTweetWithMedia,
