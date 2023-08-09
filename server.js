@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-// import twit from 'twit' // No longer needed as Twitter API v1.1 is deprecated
 import bodyParser from 'body-parser'
 import fs from 'fs'
 import twitter from './twitter.js'
