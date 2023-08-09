@@ -7,11 +7,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 chai.use(chaiAsPromised)
 
 describe('Scheduled tweet database schema', () => {
-  let sandbox
   let database
 
   before(async () => {
-    sandbox = sinon.createSandbox()
 
     database = await MongoMemoryServer.create()
     const uri = await database.getUri()
@@ -22,7 +20,6 @@ describe('Scheduled tweet database schema', () => {
   })
 
   afterEach(async () => {
-    sandbox.restore()
     await mongoose.disconnect()
     await database.stop()
   })
