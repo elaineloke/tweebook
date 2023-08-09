@@ -1,0 +1,80 @@
+<div class="col" id="left">
+  <h2>New Tweet</h2>
+
+  <textarea id="tweet-area" name="tweetbox" rows="5" cols="70" placeholder="What's happening?" maxlength="280"></textarea>
+  <div id="remaining-chars">280 characters remaining</div>
+
+  <script>
+    let textArea = document.getElementById("tweet-area");
+    let remainingChars = document.getElementById("remaining-chars");
+    let maxChars = 280;
+
+    textArea.addEventListener("input", countChar);
+
+    function countChar() {
+      let remaining = maxChars - textArea.value.length;
+      let remainingColour = remaining < 20 ? "red" : "black";
+      remainingChars.textContent = `${remaining} characters remaining`;
+      remainingChars.style.color = remainingColour;
+    }
+  </script>
+
+  <div>
+    <input type="checkbox" name="previewImage" id="previewImage">
+    <label for="previewImage">Include preview image</label>
+  </div>
+
+  <button class="button" id="tweet-button" onclick="postTweet(this)">Tweet</button>
+  <button class="button" id="schedule-button" onclick="scheduleTweet(this)">Schedule Tweet</button>
+
+  <form class="flatpickr">
+    <div class="col col-lg-5">
+      <input type="text" id="calendar" placeholder="Schedule date/time" readonly="readonly">
+    </div>
+  </form>
+
+  <tbody>
+    <div class="col col-lg-12" id="left-content">
+      <div id="scheduledTweets">
+
+        <h5>All scheduled tweets</h5>
+        <script>
+          let scheduledTweets = <%- JSON.stringify(scheduledTweets) %>;
+
+          scheduledTweets.sort(function(scheduledTweets, nextScheduledTweet) {
+            return new Date(scheduledTweets.date) - new Date(nextScheduledTweet.date)
+          })
+
+          let scheduledTweetHTML = '<div class="row" id="scheduledTweetContainer">';
+          for (let index = 0; index < scheduledTweets.length; index++) {
+
+            if (scheduledTweets[index].image) {
+              scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                '<div class="card-body">' +
+                '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                '<div class="card-text">' + '<img src="data:image/png;base64,' + scheduledTweets[index].image + '"/ style="width: 400px" >' + '</div>' +
+                '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="delete-button" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            } else {
+              scheduledTweetHTML += '<div class="col-sm-12"><div class="card mb-3">' +
+                '<div class="card-body">' +
+                '<h6 class="card-subtitle mb-2 text-muted scheduledDate">' + scheduledTweets[index].date + '</h6>' +
+                '<p class="card-text scheduledBody">' + scheduledTweets[index].body + '</p>' +
+                '<p class="card-text"><span onclick="deleteScheduledTweet(this)" class="delete-button" style="cursor: pointer"><i class="fas fa-trash" style="cursor: pointer"></i> Delete</span> ' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            }
+          }
+          scheduledTweetHTML += '</div>';
+
+          var tweetsContainer = document.getElementById('scheduledTweets');
+          tweetsContainer.insertAdjacentHTML('beforeend', scheduledTweetHTML);
+        </script>
+      </div>
+    </div>
+  </tbody>
+</div>
