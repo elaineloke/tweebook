@@ -1,0 +1,28 @@
+<div class="col" id="right">
+  <table class="responsive-table table">
+    <thead>
+      <h2>Hashtag Search</h2>
+      <div class="main-search-input-wrap">
+        <div class="main-search-input fl-wrap">
+          <form method="post">
+            <div class="main-search-input-item">
+              <fieldset>
+                <div class="input-group">
+                  <input class="form-control" name="hashtag" placeholder="Search a popular term or #hashtag" required type="text">
+                </div>
+              </fieldset>
+            </div>
+            <button class="main-search-button" input type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </thead>
+
+    <tbody>
+      <div class="col col-lg-12" id="right-content">
+        <%- include('hashtag'); %>
+        <%- include('search-results'); %>
+      </div>
+    </tbody>
+  </table>
+</div>

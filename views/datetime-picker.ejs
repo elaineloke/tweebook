@@ -1,0 +1,41 @@
+<script>
+  flatpickr("#calendar", {
+    allowInput: true,
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    altInput: true,
+    altFormat: "F j, Y (h:i K)",
+    minDate: "today",
+    plugins: [
+      ShortcutButtonsPlugin({
+        theme: 'material-green',
+        button: [{
+            label: "Clear"
+          },
+          {
+            label: "Today"
+          },
+          {
+            label: "Tomorrow"
+          },
+        ],
+        onClick: (index, fp) => {
+          let date;
+          switch (index) {
+            case 0:
+              fp.clear();
+              fp.close();
+              break;
+            case 1:
+              date = new Date();
+              break;
+            case 2:
+              date = new Date(Date.now() + 24 * 60 * 60 * 1000);
+              break;
+          }
+          fp.setDate(date);
+        }
+      })
+    ]
+  });
+</script>

@@ -1,115 +1,111 @@
 <style>
-html, body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 50px;
-}
+	html,
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		margin-bottom: 50px;
+	}
 
-#left {
+  #left {
     padding: 20px;
     margin: 10px;
-    background-color: #4FC1E9;
-}
-  
-#right {
+    background-color: #4fc1e9;
+  }
+
+  #right {
     padding: 20px;
     margin: 10px;
-    background-color: #FC6E51;
-}
+    background-color: #fc6e51;
+  }
 
-#right-content {
+  #right-content {
+    max-height: 110vh;
+    margin-bottom: 60px;
+    overflow-y: scroll;
+    background-color: #6fdfee;
+    position: static;
+  }
+
+  #left-content {
     max-height: 100vh;
     margin-bottom: 60px;
     overflow-y: scroll;
     background-color: #6fdfee;
     position: static;
-}
+  }
 
-#left-content {
-    max-height: 100vh;
-    margin-bottom: 60px;
-    overflow-y: scroll;
-    background-color: #6fdfee;
-    position: static;
-}
-
-#h1 {
+  #h1 {
     padding: 20px;
     text-align: center;
     font-size: 100px;
-}
+  }
 
-h2 {
+  h2 {
     top: 0;
     z-index: 1020;
-}
+  }
 
-h5 {
+  h5 {
     padding-top: 10px;
-}
+  }
 
-#tweet-area {
+  #tweet-area {
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     line-height: 20px;
-}
+  }
 
-#remaining-chars {
+  #remaining-chars {
     text-align: right;
     font-size: 12px;
-}
+  }
 
-#tweetButton {
+  #tweet-button {
     font-size: 15px;
     text-align: center;
     width: auto;
     margin-bottom: 10px;
     float: right;
-}
+  }
 
-#scheduleButton {
+  #schedule-button {
     font-size: 15px;
     text-align: center;
     width: auto;
     margin-bottom: 10px;
     margin-right: 20px;
     float: right;
-}
+  }
 
-#searchBar {
-    width: 300px;
-    margin-bottom: 20px;
-}
+  /* Bootstrap search bar */
 
-/* Bootstrap search bar */
-
-.main-search-input {
+  .main-search-input {
     background: #fff;
     padding: 0 120px 0 0;
     border-radius: 1px;
     box-shadow: 0px 0px 0px 6px rgba(255, 255, 255, 0.3);
-}
+  }
 
-.fl-wrap {
+  .fl-wrap {
     float: left;
     width: 100%;
     position: relative;
-}
+  }
 
-.main-search-input-item input {
+  .main-search-input-item input {
     float: left;
     border: none;
     width: 100%;
     height: 50px;
-    padding-left: 20px
-}
+    padding-left: 20px;
+  }
 
-.main-search-button {
-    background: #4DB7FE;
+  .main-search-button {
+    background: #4db7fe;
     position: -webkit-sticky;
-}
+  }
 
-.main-search-button {
+  .main-search-button {
     position: absolute;
     right: 0px;
     height: 50px;
@@ -119,27 +115,26 @@ h5 {
     border: none;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    cursor: pointer
-}
+    cursor: pointer;
+  }
 
-.main-search-input-wrap {
+  .main-search-input-wrap {
     max-width: 500px;
     margin: 20px 20px 100px 20px;
-    /* position: fixed; */
-}
+  }
 
-@media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     .main-search-input-item input {
-        border-radius: 6px !important;
-        background: #fff
+      border-radius: 6px !important;
+      background: #fff;
     }
-}
+  }
 
-/* end of Bootstrap search bar */
+  /* end of Bootstrap search bar */
 
-/* Boostrap search button */
+  /* Boostrap search button */
 
-.button {
+  .button {
     display: inline-block;
     background: #4285f4;
     color: #fff;
@@ -149,80 +144,101 @@ h5 {
     cursor: pointer;
   }
 
-.shortcut-buttons-flatpickr-buttons {
+  .shortcut-buttons-flatpickr-buttons {
     justify-content: center;
     width: 100%;
   }
-  
-/* end of Bootstrap search button */
 
-/* Tweeting toast box */
-#tweetSuccess, #scheduleSuccess {
-    top: 10px; 
-    right: 10px;
-    width: auto;
-    position: absolute; 
-    margin-right: 20px;
-    background-color: green;
-}
+  /* end of Bootstrap search button */
 
-#tweetFail, #scheduleFail {
-    top: 10px; 
-    right: 10px;
-    width: auto;
-    position: absolute; 
-    margin-right: 20px;
-    background-color: red;
-}
 
-/* end of tweeting toast box */
-
-#bookapi {
+  #book-api {
     width: 1000px;
     margin: auto;
     padding: 0px 100px;
-}
+  }
 
-.links-to-books {
+  #book-genre {
+    font-size: medium;
+    font-weight: bold;
+  }
+
+  #book-api-table {
     cursor: pointer;
-}
+  }
 
-.deleteButton {
+  .links-to-books {
+    cursor: pointer;
+  }
+
+  .delete-button {
     color: red;
     font-size: 12px;
-}
+  }
 
-.retweetCount {
+  .retweet-count {
     margin-right: 20px;
-}
+  }
 
-.fa-heart, .fa-retweet {
-    margin: 3px
-}
+  .fa-heart,
+  .fa-retweet {
+    margin: 3px;
+  }
 
-#notification-bar {
-    font-size:15px;
-    text-align: left; 
+  #notification-bar {
+    font-size: 15px;
+    text-align: left;
     font-family: Arial, Helvetica, sans-serif;
-}
+  }
 
-/* start of preview image div */
-#colorPicker {
+  /* Preview image div */
+  #color-picker {
     padding: 20px;
     margin-left: 100px;
-}
+  }
 
-#previewImageDiv {
+  #background-colorpicker, 
+  #text-colorpicker {
+    cursor: pointer;
+  }
+
+  #preview-image-div {
     padding: 10px;
-    margin-right: 300px;
-}
+    margin-right: 200px;
+  }
 
-/* end of preview image div */
+  /* end of preview image div */
 
+  /* Loading status */
+  #loading-status {
+    display: none;
+    color: deepskyblue;
+  }
 
+  #loading-text {
+    margin-left: 40px;
+    font-weight: 500;
+  }
+
+  #jumping-dots span {
+    position: relative;
+    bottom: 0px;
+    animation: jump 2s infinite;
+  }
+  #jumping-dots #dot-1{
+    animation-delay: 200ms;
+  }
+  #jumping-dots #dot-2{
+    animation-delay: 400ms;
+  }
+  #jumping-dots #dot-3{
+    animation-delay: 600ms;
+  }
+
+  @keyframes jump {
+    0%   {bottom: 0px;}
+    20%  {bottom: 5px;}
+    40%  {bottom: 0px;}
+  }
+  /* end of loading status */
 </style>
-
-
-
-
-
