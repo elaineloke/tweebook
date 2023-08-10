@@ -1,5 +1,4 @@
 import chai, { expect } from 'chai'
-import sinon from 'sinon'
 import mongoose from 'mongoose'
 import ScheduledTweet from '../database/tweet-schema.js'
 import chaiAsPromised from 'chai-as-promised'
@@ -10,13 +9,12 @@ describe('Scheduled tweet database schema', () => {
   let database
 
   before(async () => {
-
     database = await MongoMemoryServer.create()
     const uri = await database.getUri()
     await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
   })
 
   afterEach(async () => {

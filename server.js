@@ -79,7 +79,7 @@ app.get('/', function (req, res) {
 
 })
 
-// Listen for get request on root url --> http://localhost:3000
+// Set the view engine to render EJS templates
 app.set('view engine', 'ejs')
 
 // Twitter API 2.0 authorisation
