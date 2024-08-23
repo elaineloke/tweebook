@@ -65,10 +65,10 @@ app.set('view engine', 'ejs')
 // twitter API 2.0 authorisation
 
 let TwitterAuth = new TwitterApi({
-  appKey: 'PSNm4qM4IHnoi9S8X0NHnOXr2',
-  appSecret: 'ZRppRjZAeZboyllYDKMVk5hOWmUaBjkuKyjAQtHZ4LtkrOWilr',
-  access_token: '1487423447504498688-rWQ8tT7DQ2gIOkigEFI2OZh3tPARD1',
-  access_token_secret: '4HmAzkwWNB2Ar2lfKKSWnchbwSOAPggEQ2F4tepqWn8ik',
+  appKey: '',
+  appSecret: '',
+  access_token: '',
+  access_token_secret: '',
 })
 
 function callback () {
@@ -88,8 +88,8 @@ app.get('/callback', async (req, res) => {
   }
 
   const client = new TwitterApi({
-    appKey: 'PSNm4qM4IHnoi9S8X0NHnOXr2',
-    appSecret: 'ZRppRjZAeZboyllYDKMVk5hOWmUaBjkuKyjAQtHZ4LtkrOWilr',
+    appKey: '',
+    appSecret: '',
     accessToken: oauth_token,
     accessSecret: oauth_token_secret,
   })
